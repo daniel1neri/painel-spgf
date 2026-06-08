@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Gestao SPGF/SEF-MG</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* === VARIAVEIS DE COR - altere aqui para mudar o tema inteiro === */
+:root {
+  --bg: #0e0f13; --surface: #16181f; --surface2: #1e2029;
+  --border: #2a2d38; --text: #e8eaf0; --muted: #6b7080;
+  --accent: #4f8ef7; --green: #3ecf8e; --yellow: #f5c842;
+  --red: #f76f6f; --orange: #f79a4f;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; padding: 32px 24px; }
+
+/* === CABECALHO === */
+header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+.header-left h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; }
+.header-left h1 span { color: var(--accent); }
+.header-left p { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; margin-top: 6px; }
+.today-badge { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); text-align: right; }
+.today-badge strong { color: var(--text); display: block; font-size: 16px; margin-bottom: 2px; }
+
+/* === ABAS === */
+.nav-tabs { display: flex; gap: 4px; margin-bottom: 0; border-bottom: 1px solid var(--border); }
+.nav-tab { background: transparent; border: 1px solid transparent; border-bottom: none; color: var(--muted); font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; padding: 10px 20px; cursor: pointer; border-radius: 8px 8px 0 0; transition: all 0.15s; position: relative; bottom: -1px; }
+.nav-tab:hover { color: var(--text); background: var(--surface); }
+.nav-tab.active { color: var(--accent); background: var(--surface); border-color: var(--border); border-bottom-color: var(--surface); }
+
+/* Cada aba tem seu conteudo aqui - display:none esconde, .active mostra */
+.tab-panel { display: none; background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; padding: 24px; }
+.tab-panel.active { display: block; }
+
+/* === CARDS DE RESUMO === */
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+.card .label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.card .value { font-size: 32px; font-weight: 800; line-height: 1; }
+.card.green .value { color: var(--green); } .card.yellow .value { color: var(--yellow); }
+.card.red .value { color: var(--red); } .card.blue .value { color: var(--accent); }
+
+/* === FILTROS === */
+.filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.filter-btn { background: var(--bg); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 6px 14px; font-family: 'Syne', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+.filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* === TABELA === */
+.table-wrap { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
+table { width: 100%; border-collapse: collapse; }
+thead th { background: var(--surface2); font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface2); }
+td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
+
+/* === COMPONENTES DAS LINHAS DA TABELA === */
+.tema-badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace; white-space: nowrap; }
+
+/* Select de status - dropdown editavel em cada linha */
+.status-select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 5px 10px; font-family: 'Syne', sans-serif; font-size: 12px; cursor: pointer; outline: none; width: 100%; min-width: 130px; }
+.status-select:focus { border-color: var(--accent); }
+
+/* Barra de progresso do prazo */
+.prazo-bar { display: flex; flex-direction: column; gap: 4px; min-width: 110px; }
+.prazo-bar .bar-track { background: var(--border); border-radius: 99px; height: 5px; overflow: hidden; }
+.prazo-bar .bar-fill { height: 100%; border-radius: 99px; transition: width 0.3s; }
+.prazo-bar .dias-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+.prazo-bar .dias-label strong { color: var(--text); }
+
+/* Campo de notas editavel inline */
+.notas-input { background: transparent; border: 1px solid transparent; color: var(--muted); font-family: 'Syne', sans-serif; font-size: 13px; width: 100%; min-width: 160px; border-radius: 6px; padding: 4px 8px; resize: none; transition: all 0.15s; line-height: 1.4; }
+.notas-input:focus { outline: none; border-color: var(--border); background: var(--surface2); color: var(--text); }
+.notas-input::placeholder { color: var(--border); }
+
+.resp-badge { font-family: 'DM Mono', monospace; font-size: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; color: var(--muted); white-space: nowrap; }
+.entrega-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; }
+.entrega-label.alert { color: var(--red); font-weight: 500; } .entrega-label.warn { color: var(--yellow); } .entrega-label.ok { color: var(--green); }
+
+/* Linha de separacao de secao dentro da tabela */
+.section-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; padding: 10px 16px; background: var(--surface2); border-bottom: 1px solid var(--border); }
+
+/* === BOTOES DE ACAO === */
+.btn-action { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 5px; padding: 3px 8px; font-size: 12px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.btn-action:hover { color: var(--text); border-color: var(--text); }
+.btn-action.del:hover { color: var(--red); border-color: var(--red); }
+.btn-action.hist:hover { color: var(--yellow); border-color: var(--yellow); }
+/* Botao de adicionar - estilo diferenciado */
+.btn-action.add { background: var(--surface2); border: 1px dashed var(--border); color: var(--muted); border-radius: 8px; padding: 10px 18px; font-family: 'Syne', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s; display: block; width: 100%; margin-top: 8px; text-align: center; }
+.btn-action.add:hover { border-color: var(--accent); color: var(--accent); }
+
+/* === MODAL (janela flutuante de formulario) === */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px; width: 90%; max-width: 560px; max-height: 90vh; overflow-y: auto; }
+.modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text); }
+.modal label { display: block; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; margin-top: 14px; }
+.modal input, .modal select, .modal textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 10px 12px; font-family: 'Syne', sans-serif; font-size: 14px; outline: none; transition: border-color 0.15s; }
+.modal input:focus, .modal select:focus, .modal textarea:focus { border-color: var(--accent); }
+.modal textarea { resize: vertical; min-height: 70px; }
+.modal-actions { display: flex; gap: 10px; margin-top: 22px; justify-content: flex-end; }
+.btn-primary { background: var(--accent); border: none; color: #fff; border-radius: 8px; padding: 10px 22px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); border-radius: 8px; padding: 10px 22px; font-family: 'Syne', sans-serif; font-size: 14px; cursor: pointer; }
+.btn-secondary:hover { color: var(--text); }
+
+/* === HISTORICO === */
+.hist-empty { text-align: center; color: var(--muted); font-size: 14px; padding: 48px 0; font-family: 'DM Mono', monospace; }
+
+/* === DASHBOARD === */
+.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.dash-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.dash-card h4 { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+.resp-row { margin-bottom: 12px; }
+.resp-row .resp-label { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 12px; margin-bottom: 4px; color: var(--muted); }
+.resp-row .resp-label strong { color: var(--text); }
+.resp-row .bar-track { background: var(--border); border-radius: 99px; height: 6px; overflow: hidden; }
+.resp-row .bar-fill { height: 100%; border-radius: 99px; background: var(--accent); }
+.critical-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); gap: 8px; }
+.critical-item:last-child { border-bottom: none; }
+.critical-item .ci-name { font-size: 13px; font-weight: 600; }
+.critical-item .ci-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.critical-item .ci-days { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 700; white-space: nowrap; }
+
+/* === OBZ === */
+.deadline-banner { background: linear-gradient(90deg, #2a1a1a, var(--bg)); border: 1px solid #f76f6f44; border-radius: 10px; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 8px; }
+.deadline-banner .dl-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+.deadline-banner .dl-date { font-size: 18px; font-weight: 800; color: var(--red); }
+.deadline-banner .dl-days { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--yellow); }
+.obz-section-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin: 20px 0 10px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.obz-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); min-width: 20px; }
+.area-badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace; }
+.cenario-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-family: 'DM Mono', monospace; font-weight: 600; }
+.cenario-limiar { background: #1a2e22; color: var(--green); border: 1px solid #3ecf8e44; }
+.cenario-incremental { background: #2a2212; color: var(--yellow); border: 1px solid #f5c84244; }
+.novo-sim { color: var(--orange); font-weight: 700; font-size: 12px; } .novo-nao { color: var(--muted); font-size: 12px; }
+.status-pendente { background: var(--bg); border: 1px dashed var(--red); border-radius: 10px; padding: 16px 20px; color: var(--muted); font-size: 13px; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.status-pendente .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex-shrink: 0; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+
+/* === INPUTS INLINE NA TABELA (Resp. e Ext.) === */
+.inline-input {
+  background: transparent; border: 1px solid transparent;
+  color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px;
+  border-radius: 4px; padding: 3px 6px; transition: all 0.15s; width: 100%;
+}
+.inline-input:focus { outline: none; border-color: var(--border); background: var(--surface2); color: var(--text); }
+.inline-input::placeholder { color: var(--border); }
+
+/* === BARRA DE FERRAMENTAS (exportar/importar/github) === */
+.toolbar {
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 16px; margin-bottom: 20px;
+}
+.toolbar-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-right: 4px; }
+.toolbar-sep { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
+.btn-tool {
+  background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+  border-radius: 6px; padding: 6px 14px; font-family: 'Syne', sans-serif;
+  font-size: 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.btn-tool:hover { color: var(--text); border-color: var(--text); }
+.btn-tool.green:hover { color: var(--green); border-color: var(--green); }
+.btn-tool.blue:hover  { color: var(--accent); border-color: var(--accent); }
+.btn-tool.yellow:hover { color: var(--yellow); border-color: var(--yellow); }
+
+/* === MODAL DE CONFIGURACAO GITHUB === */
+.gh-config { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.gh-config input {
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); border-radius: 8px; padding: 10px 12px;
+  font-family: 'DM Mono', monospace; font-size: 13px; outline: none;
+}
+.gh-config input:focus { border-color: var(--accent); }
+.gh-status { font-family: 'DM Mono', monospace; font-size: 12px; margin-top: 6px; min-height: 18px; }
+
+@media (max-width: 768px) { body { padding: 16px 12px; } .header-left h1 { font-size: 20px; } td, th { padding: 10px 10px; } .nav-tab { padding: 8px 12px; font-size: 12px; } }
+</style>
+</head>
+<body>
+
+<!-- CABECALHO: titulo e data atual -->
+<header>
+  <div class="header-left">
+    <h1>Painel de Gestao<br><span>SPGF / SEF-MG</span></h1>
+    <p>Inicio de contagem: 20/05/2026 · Assessoria SPGF · Atividades e Prioridades</p>
+  </div>
+  <div class="today-badge">
+    <strong id="today-date">carregando...</strong>
+    <span id="days-since"></span>
+  </div>
+</header>
+
+
+<!-- BARRA DE FERRAMENTAS: exportar, importar e sincronizar com GitHub -->
+<div class="toolbar">
+  <span class="toolbar-label">Dados</span>
+  <button class="btn-tool green" onclick="exportarJSON()" title="Baixa um arquivo .json com todos os seus dados">⬇ Exportar JSON</button>
+  <label class="btn-tool blue" style="cursor:pointer" title="Carrega dados de um arquivo .json salvo anteriormente">
+    ⬆ Importar JSON<input type="file" accept=".json" onchange="importarJSON(event)" style="display:none">
+  </label>
+  <div class="toolbar-sep"></div>
+  <span class="toolbar-label">GitHub</span>
+  <button class="btn-tool yellow" onclick="abrirConfigGH()" title="Configurar token e repositorio do GitHub">⚙ Configurar</button>
+  <button class="btn-tool green" onclick="salvarNoGitHub()" title="Salva os dados como arquivo JSON no seu repositorio GitHub">☁ Salvar no GitHub</button>
+  <button class="btn-tool blue" onclick="carregarDoGitHub()" title="Carrega os dados salvos no GitHub para o painel">↻ Carregar do GitHub</button>
+  <span class="gh-status" id="gh-status"></span>
+</div>
+
+<!-- NAVEGACAO POR ABAS: cada botao ativa um tab-panel via JS -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('prioridades',this)">Prioridades</button>
+  <button class="nav-tab" onclick="switchTab('historico',this)">Historico</button>
+  <button class="nav-tab" onclick="switchTab('dashboard',this)">Dashboard</button>
+  <button class="nav-tab" onclick="switchTab('obz',this)">OBZ 2026</button>
+</div>
+
+<!-- ABA 1: PRIORIDADES - tabela principal das 15 entregas -->
+<div class="tab-panel active" id="tab-prioridades">
+  <div class="summary">
+    <div class="card blue">  <div class="label">Total</div>        <div class="value" id="s-total">-</div></div>
+    <div class="card green"> <div class="label">Concluidas</div>   <div class="value" id="s-done">-</div></div>
+    <div class="card yellow"><div class="label">Em andamento</div> <div class="value" id="s-prog">-</div></div>
+    <div class="card red">   <div class="label">Nao iniciadas</div><div class="value" id="s-not">-</div></div>
+  </div>
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterTable('all',this)">Todos</button>
+    <button class="filter-btn" onclick="filterTable('Aposentadoria',this)">Aposentadoria</button>
+    <button class="filter-btn" onclick="filterTable('Automatizacao',this)">Automatizacao</button>
+    <button class="filter-btn" onclick="filterTable('Dados Funcionais',this)">Dados Funcionais</button>
+    <button class="filter-btn" onclick="filterTable('Dados Financeiros',this)">Dados Financeiros</button>
+    <button class="filter-btn" onclick="filterTable('Posse',this)">Posse e Exercicio</button>
+    <button class="filter-btn" onclick="filterTable('Movimentacao',this)">Movimentacao</button>
+    <button class="filter-btn" onclick="filterTable('Pagamento',this)">Pagamento</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Tema</th><th>Subtema</th><th>Risco</th><th>Acao</th>
+        <th>Resp.</th><th>Ext.</th><th>Prazo</th><th>Vencimento</th>
+        <th>Status</th><th>Notas</th><th>Acoes</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <button class="btn-action add" onclick="openModal()">+ Adicionar nova prioridade</button>
+</div>
+
+<!-- ABA 2: HISTORICO - itens arquivados -->
+<div class="tab-panel" id="tab-historico">
+  <div class="summary">
+    <div class="card green"><div class="label">Arquivadas</div><div class="value" id="h-count">0</div></div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Tema</th><th>Subtema</th><th>Acao</th><th>Resp.</th>
+        <th>Prazo orig.</th><th>Status final</th><th>Arquivado em</th><th>Restaurar</th>
+      </tr></thead>
+      <tbody id="hist-tbody"></tbody>
+    </table>
+  </div>
+  <p id="hist-empty" class="hist-empty">Nenhum item arquivado ainda. Mova itens concluidos clicando em Arquivar.</p>
+</div>
+
+<!-- ABA 3: DASHBOARD - visao consolidada -->
+<div class="tab-panel" id="tab-dashboard">
+  <div class="dashboard-grid">
+    <div class="dash-card"><h4>Proximos vencimentos</h4><div id="dash-criticos"></div></div>
+    <div class="dash-card"><h4>Por responsavel</h4><div id="dash-resp"></div></div>
+    <div class="dash-card"><h4>Distribuicao de status</h4><div id="dash-status"></div></div>
+  </div>
+</div>
+
+<!-- ABA 4: OBZ - orcamento base zero por area -->
+<div class="tab-panel" id="tab-obz">
+  <div class="deadline-banner">
+    <div><div class="dl-label">Entrega OBZ para DPOF</div><div class="dl-date">12/06/2025</div></div>
+    <div class="dl-days" id="obz-countdown">-</div>
+    <div><span style="font-size:12px;color:var(--muted)">Pendente:</span>
+    <span id="obz-pendente-label" style="color:var(--red);font-weight:700;font-size:13px;margin-left:6px">DBENS</span></div>
+  </div>
+  <div class="summary">
+    <div class="card blue">  <div class="label">Total previsto</div>    <div class="value" id="obz-total">-</div></div>
+    <div class="card green"> <div class="label">Limiar (essencial)</div><div class="value" id="obz-limiar">-</div></div>
+    <div class="card yellow"><div class="label">Incremental</div>        <div class="value" id="obz-incremental">-</div></div>
+    <div class="card blue">  <div class="label">Itens cadastrados</div> <div class="value" id="obz-count">-</div></div>
+  </div>
+
+  <!-- Secao GABINETE/SPGF: responsabilidade do usuario -->
+  <div class="obz-section-title">
+    <span class="area-badge" style="background:#1a2a3a;border:1px solid var(--accent);color:#7ab8f7">GABINETE / SPGF</span>
+    <span style="font-size:12px;font-weight:400">Responsabilidade: <strong style="color:var(--text)">Voce</strong></span>
+  </div>
+  <div class="table-wrap"><table><thead><tr>
+    <th>Descricao</th><th>Elemento</th><th>Cenario</th><th>Novo?</th><th>Volume</th><th>Preco Unit.</th><th>Freq.</th><th>Total</th><th>Acoes</th>
+  </tr></thead><tbody id="obz-gabinete"></tbody></table></div>
+  <button class="btn-action add" onclick="openObzModal('gabinete')">+ Adicionar item (Gabinete/SPGF)</button>
+
+  <!-- Secao DADH: area tecnica -->
+  <div class="obz-section-title" style="margin-top:24px">
+    <span class="area-badge" style="background:#1a2a2a;border:1px solid var(--green);color:var(--green)">DADH</span>
+    <span style="font-size:12px;font-weight:400">Responsabilidade: <strong style="color:var(--muted)">Area tecnica</strong></span>
+  </div>
+  <div class="table-wrap"><table><thead><tr>
+    <th>Descricao</th><th>Elemento</th><th>Cenario</th><th>Novo?</th><th>Volume</th><th>Preco Unit.</th><th>Freq.</th><th>Total</th><th>Acoes</th>
+  </tr></thead><tbody id="obz-dadh"></tbody></table></div>
+  <button class="btn-action add" onclick="openObzModal('dadh')">+ Adicionar item (DADH)</button>
+
+  <!-- Secao DBENS: pendente - ponto vermelho pisca enquanto vazio -->
+  <div class="obz-section-title" style="margin-top:24px">
+    <span class="area-badge" style="background:#2a1a1a;border:1px solid var(--red);color:var(--red)">DBENS</span>
+    <span style="font-size:12px;font-weight:400">Responsabilidade: <strong style="color:var(--muted)">Area tecnica (pendente)</strong></span>
+  </div>
+  <div id="dbens-pendente" class="status-pendente">
+    <div class="dot"></div>
+    <span>Aguardando envio da DBENS. Cobrar antes de <strong style="color:var(--red)">10/06</strong> para consolidar a tempo.</span>
+  </div>
+  <div class="table-wrap"><table><thead><tr>
+    <th>Descricao</th><th>Elemento</th><th>Cenario</th><th>Novo?</th><th>Volume</th><th>Preco Unit.</th><th>Freq.</th><th>Total</th><th>Acoes</th>
+  </tr></thead><tbody id="obz-dbens"></tbody></table></div>
+  <button class="btn-action add" onclick="openObzModal('dbens')">+ Adicionar item (DBENS)</button>
+</div>
+
+<!-- MODAL: formulario de adicionar/editar prioridade -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">Nova Prioridade</h3>
+    <input type="hidden" id="modal-edit-idx" value="">
+    <label>Tema</label>
+    <select id="m-tema">
+      <option>Aposentadoria</option><option>Automatizacao</option>
+      <option>Dados Funcionais</option><option>Dados Financeiros e Funcionais</option>
+      <option>Posse e Exercicio</option><option>Movimentacao de Servidor</option><option>Pagamento</option>
+    </select>
+    <label>Subtema</label><input type="text" id="m-subtema" placeholder="Ex: Simulador de data">
+    <label>Risco identificado</label><input type="text" id="m-risco" placeholder="Ex: Excesso de parametros">
+    <label>Acao</label><textarea id="m-acao" placeholder="Descreva a acao a ser executada..."></textarea>
+    <label>Responsavel</label><input type="text" id="m-resp" placeholder="Ex: DCTA">
+    <label>Relacionamento externo</label><input type="text" id="m-ext" placeholder="Ex: STI (deixe vazio se nao houver)">
+    <label>Prazo (dias a partir de 20/05)</label><input type="number" id="m-prazo" value="60" min="1">
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn-primary" onclick="saveModal()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: formulario especifico para itens do OBZ -->
+<div class="modal-overlay" id="modal-obz">
+  <div class="modal">
+    <h3 id="modal-obz-title">Novo Item OBZ</h3>
+    <input type="hidden" id="obz-area" value="">
+    <input type="hidden" id="obz-edit-idx" value="">
+    <label>Descricao do item</label><input type="text" id="o-desc" placeholder="Ex: Alta Lideranca - Cursos de Formacao">
+    <label>Elemento orcamentario</label><input type="text" id="o-elem" placeholder="Ex: 3948 - Cursos de formacao e capacitacao">
+    <label>Agrupamento</label><input type="text" id="o-agrup" placeholder="Ex: Cursos de formacao e capacitacoes">
+    <label>Cenario</label>
+    <select id="o-cenario"><option value="LIMIAR">LIMIAR (essencial)</option><option value="INCREMENTAL">INCREMENTAL (melhoria)</option></select>
+    <label>Novo item?</label>
+    <select id="o-novo"><option value="SIM">SIM</option><option value="NAO">NAO</option></select>
+    <label>Volume (quantidade)</label><input type="number" id="o-vol" value="1" min="0">
+    <label>Preco unitario (R$)</label><input type="number" id="o-preco" value="0" min="0">
+    <label>Frequencia de pagamento (vezes/ano)</label><input type="number" id="o-freq" value="1" min="1">
+    <label>Risco de nao fazer</label><textarea id="o-risco" placeholder="O que acontece se nao for feito?"></textarea>
+    <label>Beneficio ao fazer</label><textarea id="o-beneficio" placeholder="Qual o ganho esperado?"></textarea>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeObzModal()">Cancelar</button>
+      <button class="btn-primary" onclick="saveObzModal()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================
+   CONFIGURACAO INICIAL
+   START = data de inicio dos prazos
+   hoje = data atual sem hora (para calculos de dias)
+   diffDays = quantos dias passaram desde START
+   ========================================== */
+const START = new Date('2026-05-20');
+const hoje = new Date();
+hoje.setHours(0,0,0,0);
+const diffDays = Math.floor((hoje - START) / 86400000);
+
+// Atualiza o cabecalho com a data atual
+document.getElementById('today-date').textContent =
+  hoje.toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'});
+document.getElementById('days-since').textContent = `Dia ${diffDays} desde o inicio`;
+
+// Countdown do prazo do OBZ
+const diasObz = Math.floor((new Date('2026-06-12') - hoje) / 86400000);
+document.getElementById('obz-countdown').textContent =
+  diasObz > 0 ? `${diasObz} dias restantes` : diasObz === 0 ? 'HOJE!' : `Vencido ha ${Math.abs(diasObz)}d`;
+
+/* ==========================================
+   CORES POR TEMA
+   Cada tema tem fundo, borda e texto proprios
+   ========================================== */
+const CORES = {
+  'Aposentadoria':                  {bg:'#1a2a3a',border:'#4f8ef7',text:'#7ab8f7'},
+  'Automatizacao':                  {bg:'#1a2e22',border:'#3ecf8e',text:'#3ecf8e'},
+  'Automatização':                  {bg:'#1a2e22',border:'#3ecf8e',text:'#3ecf8e'},
+  'Dados Funcionais':               {bg:'#2a1f12',border:'#f79a4f',text:'#f79a4f'},
+  'Dados Financeiros e Funcionais': {bg:'#2a1a2a',border:'#c084f5',text:'#c084f5'},
+  'Posse e Exercicio':              {bg:'#2a2a12',border:'#f5c842',text:'#f5c842'},
+  'Posse e Exercício':              {bg:'#2a2a12',border:'#f5c842',text:'#f5c842'},
+  'Movimentacao de Servidor':       {bg:'#1a2a2a',border:'#56d9d9',text:'#56d9d9'},
+  'Movimentação de Servidor':       {bg:'#1a2a2a',border:'#56d9d9',text:'#56d9d9'},
+  'Pagamento':                      {bg:'#2a1a1a',border:'#f76f6f',text:'#f76f6f'},
+};
+
+/* ==========================================
+   DADOS INICIAIS DAS 15 PRIORIDADES
+   Carregados apenas na primeira vez (sem dados salvos)
+   ========================================== */
+const PRIORIDADES_BASE = [
+  {tema:'Aposentadoria',subtema:'Horizontes de aposentadoria',risco:'Dificuldade na validacao da planilha',acao:'Testes na planilha conferindo dados e identificando inconsistencias',resp:'DCTA',ext:'',prazo:60},
+  {tema:'Aposentadoria',subtema:'Abono de permanencia',risco:'Beneficio indevido',acao:'Acerto nova interpretacao e Concessao automatica',resp:'DCTA',ext:'',prazo:60},
+  {tema:'Aposentadoria',subtema:'Simulador de data',risco:'Excesso de parametros',acao:'Disponibilizacao de aplicativo para os servidores',resp:'DCTA',ext:'STI',prazo:100},
+  {tema:'Aposentadoria',subtema:'Simulador de proventos',risco:'Excesso de parametros',acao:'Disponibilizacao de planilha automatizada no Excel',resp:'DCTA',ext:'',prazo:100},
+  {tema:'Automatizacao',subtema:'Concessao do quinquenio',risco:'Controle precario',acao:'Sistematizar concessoes extraindo dados mensais do painel funcional',resp:'DCTA',ext:'',prazo:100},
+  {tema:'Automatizacao',subtema:'Concessao de ferias-premio',risco:'Controle precario',acao:'Sistematizar concessoes extraindo dados mensais do painel funcional',resp:'DCTA',ext:'',prazo:100},
+  {tema:'Automatizacao',subtema:'Concessao de abono de permanencia',risco:'Controle precario',acao:'Automatizacao da geracao de dados a partir do horizonte de aposentadoria',resp:'DCTA',ext:'',prazo:100},
+  {tema:'Automatizacao',subtema:'Evolucao na carreira',risco:'Controle precario',acao:'Sistematizar concessoes extraindo dados mensais do painel funcional',resp:'DCTA',ext:'',prazo:100},
+  {tema:'Automatizacao',subtema:'Jetons',risco:'Excesso de processos manuais',acao:'Automatizacao de pagamento de jetons',resp:'DP',ext:'',prazo:100},
+  {tema:'Automatizacao',subtema:'Sistema de controle de demandas',risco:'Controle precario',acao:'Sistematizar o controle de demanda',resp:'DAPE',ext:'STI',prazo:100},
+  {tema:'Dados Funcionais',subtema:'Forca de trabalho da SEF',risco:'Controle precario',acao:'Sistematizacao',resp:'DCB',ext:'STI',prazo:100},
+  {tema:'Dados Financeiros e Funcionais',subtema:'Aprimoramento do painel da DAPE',risco:'Morosidade na geracao de informacoes',acao:'Inclusao dos modulos de aposentadoria e cargos comissionados',resp:'DAPE',ext:'',prazo:100},
+  {tema:'Posse e Exercicio',subtema:'Otimizacao de processo',risco:'Excesso de processos manuais',acao:'Inclusao do processo no SEI',resp:'DCB',ext:'',prazo:60},
+  {tema:'Movimentacao de Servidor',subtema:'SISREOP',risco:'Dependencia externa',acao:'Assumir a Gestao do Sistema',resp:'DCB',ext:'STI',prazo:100},
+  {tema:'Pagamento',subtema:'Sistema de Acerto de Pagamento',risco:'Dependencia externa',acao:'Assumir a Gestao do Sistema',resp:'DP',ext:'STI',prazo:100},
+];
+
+/* ==========================================
+   ESTADO GLOBAL - tudo que muda fica aqui
+   Salvo em localStorage para persistir entre sessoes
+   ========================================== */
+function loadState() {
+  try {
+    const raw = localStorage.getItem('spgf_v3');
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  // Primeira vez: cria estado inicial com dados base
+  return {
+    prioridades: PRIORIDADES_BASE.map(p => ({...p, status:'Nao iniciado', notas:''})),
+    historico: [],
+    obz: {
+      gabinete: [
+        {desc:'Alta Lideranca - Cursos de Formacao e Capacitacoes',elem:'3948 - Cursos de formacao cap. e pos-graduacao',agrup:'Cursos de formacao',cenario:'LIMIAR',novo:'SIM',vol:1,preco:400000,freq:1,risco:'Restricao a participacao em eventos',beneficio:'Possibilitar participacao em eventos de capacitacao'},
+        {desc:'Alta Lideranca - Demais Despesas de Custeio',elem:'3999 - Outros servicos - Pessoa Juridica',agrup:'Demais despesas de custeio',cenario:'INCREMENTAL',novo:'SIM',vol:1,preco:300000,freq:1,risco:'Restricao a participacao em eventos',beneficio:'Possibilitar participacao em eventos de capacitacao'},
+      ],
+      dadh: [],
+      dbens: [],
+    },
+    filtro: 'all',
+  };
+}
+
+function saveState() {
+  try { localStorage.setItem('spgf_v3', JSON.stringify(state)); } catch(e) {}
+}
+
+let state = loadState();
+
+/* ==========================================
+   NAVEGACAO POR ABAS
+   Esconde todos os paineis e exibe apenas o clicado
+   ========================================== */
+function switchTab(id, btn) {
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+  if (id === 'dashboard') renderDashboard();
+}
+
+/* ==========================================
+   UTILITARIOS DE DATA E COR
+   ========================================== */
+// Calcula data de vencimento somando prazo (dias) ao START
+function vencimento(prazo) { const d = new Date(START); d.setDate(d.getDate()+prazo); return d; }
+// Dias restantes ate o vencimento (negativo = vencido)
+function diasRest(prazo) { return Math.floor((vencimento(prazo)-hoje)/86400000); }
+// Cor da barra de progresso baseada em % de tempo decorrido
+function corBarra(pct) { return pct>=80?'var(--red)':pct>=50?'var(--yellow)':'var(--green)'; }
+// Formata numero como moeda brasileira
+function brl(v) { return 'R$ '+Number(v).toLocaleString('pt-BR',{minimumFractionDigits:0}); }
+
+/* ==========================================
+   RENDERIZACAO DA TABELA DE PRIORIDADES
+   Gera linhas dinamicamente com base em state.prioridades
+   Aplica filtro de tema se especificado
+   ========================================== */
+function renderTable(filtro) {
+  if (filtro !== undefined) state.filtro = filtro;
+  const f = state.filtro;
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  let lastTema = null;
+
+  state.prioridades.forEach((p, i) => {
+    // Aplica filtro: pula item se nao corresponde ao tema selecionado
+    if (f !== 'all' && !p.tema.includes(f)) return;
+
+    const rest = diasRest(p.prazo);
+    const pct  = Math.min(100, Math.round(diffDays/p.prazo*100));
+    const cor  = CORES[p.tema] || {bg:'#1a1a1a',border:'#444',text:'#aaa'};
+
+    // Linha de separacao entre temas diferentes
+    if (p.tema !== lastTema) {
+      lastTema = p.tema;
+      const sec = document.createElement('tr');
+      sec.innerHTML = `<td colspan="11" class="section-title">${p.tema}</td>`;
+      tbody.appendChild(sec);
+    }
+
+    // Label colorido de urgencia do vencimento
+    const vencLabel = rest<0
+      ? `<span class="entrega-label alert">Vencido ha ${Math.abs(rest)}d</span>`
+      : rest<=15 ? `<span class="entrega-label warn">${rest} dias</span>`
+      : `<span class="entrega-label ok">${rest} dias</span>`;
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><span class="tema-badge" style="background:${cor.bg};border:1px solid ${cor.border};color:${cor.text}">${p.tema.split(' ')[0]}</span></td>
+      <td style="font-weight:600;max-width:150px">${p.subtema}</td>
+      <td style="color:var(--muted);font-size:13px;max-width:130px">${p.risco}</td>
+      <td style="font-size:13px;max-width:190px">${p.acao}</td>
+      <td><input class="inline-input" value="${p.resp||''}" placeholder="Resp." onchange="updateField(${i},'resp',this.value)" style="width:70px"></td>
+      <td><input class="inline-input" value="${p.ext||''}" placeholder="Ext." onchange="updateField(${i},'ext',this.value)" style="width:60px"></td>
+      <td>
+        <div class="prazo-bar">
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${corBarra(pct)}"></div></div>
+          <span class="dias-label"><strong>${p.prazo}d</strong> · ${pct}% decorrido</span>
+        </div>
+      </td>
+      <td>
+        <span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">${vencimento(p.prazo).toLocaleDateString('pt-BR')}</span><br>
+        ${vencLabel}
+      </td>
+      <td>
+        <select class="status-select" onchange="updateStatus(${i},this.value)">
+          <option ${p.status==='Nao iniciado'?'selected':''}>Nao iniciado</option>
+          <option ${p.status==='Em andamento'?'selected':''}>Em andamento</option>
+          <option ${p.status==='Bloqueado'?'selected':''}>Bloqueado</option>
+          <option ${p.status==='Concluido'?'selected':''}>Concluido</option>
+        </select>
+      </td>
+      <td><textarea class="notas-input" rows="2" placeholder="Anotacao, bloqueio..." onchange="updateNotas(${i},this.value)">${p.notas||''}</textarea></td>
+      <td style="white-space:nowrap;vertical-align:middle">
+        <button class="btn-action" onclick="editItem(${i})" title="Editar">Editar</button>
+        <button class="btn-action hist" onclick="arquivarItem(${i})" title="Mover para historico">Arquivar</button>
+        <button class="btn-action del" onclick="deletarItem(${i})" title="Excluir">Excluir</button>
+      </td>`;
+    tbody.appendChild(row);
+  });
+  updateSummary();
+}
+
+/* ==========================================
+   ATUALIZACAO DOS CARDS DE RESUMO
+   Conta itens por status e preenche os valores
+   ========================================== */
+function updateSummary() {
+  let done=0, prog=0, not=0;
+  state.prioridades.forEach(p => {
+    if (p.status==='Concluido') done++;
+    else if (p.status==='Em andamento'||p.status==='Bloqueado') prog++;
+    else not++;
+  });
+  document.getElementById('s-total').textContent = state.prioridades.length;
+  document.getElementById('s-done').textContent  = done;
+  document.getElementById('s-prog').textContent  = prog;
+  document.getElementById('s-not').textContent   = not;
+}
+
+/* ==========================================
+   ACOES: STATUS, NOTAS, ARQUIVAR, DELETAR
+   ========================================== */
+function updateStatus(i, val) { state.prioridades[i].status = val; saveState(); updateSummary(); }
+function updateNotas(i, val)  { state.prioridades[i].notas  = val; saveState(); }
+
+// Move item de prioridades para historico
+function arquivarItem(i) {
+  if (!confirm('Mover para o Historico?')) return;
+  const item = state.prioridades.splice(i,1)[0];
+  item.arquivadoEm = new Date().toLocaleDateString('pt-BR');
+  state.historico.push(item);
+  saveState(); renderTable(); renderHistorico();
+}
+
+// Remove item permanentemente
+function deletarItem(i) {
+  if (!confirm('Excluir permanentemente?')) return;
+  state.prioridades.splice(i,1);
+  saveState(); renderTable();
+}
+
+/* ==========================================
+   MODAL DE PRIORIDADE: ABRIR, EDITAR, SALVAR, FECHAR
+   ========================================== */
+function openModal() {
+  document.getElementById('modal-title').textContent = 'Nova Prioridade';
+  document.getElementById('modal-edit-idx').value = '';
+  ['m-subtema','m-risco','m-acao','m-resp','m-ext'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('m-prazo').value = 60;
+  document.getElementById('modal').classList.add('open');
+}
+
+function editItem(i) {
+  const p = state.prioridades[i];
+  document.getElementById('modal-title').textContent = 'Editar Prioridade';
+  document.getElementById('modal-edit-idx').value = i;
+  document.getElementById('m-tema').value    = p.tema;
+  document.getElementById('m-subtema').value = p.subtema;
+  document.getElementById('m-risco').value   = p.risco;
+  document.getElementById('m-acao').value    = p.acao;
+  document.getElementById('m-resp').value    = p.resp;
+  document.getElementById('m-ext').value     = p.ext||'';
+  document.getElementById('m-prazo').value   = p.prazo;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+// Cria ou atualiza item ao salvar o modal
+function saveModal() {
+  const idx = document.getElementById('modal-edit-idx').value;
+  const item = {
+    tema:    document.getElementById('m-tema').value,
+    subtema: document.getElementById('m-subtema').value,
+    risco:   document.getElementById('m-risco').value,
+    acao:    document.getElementById('m-acao').value,
+    resp:    document.getElementById('m-resp').value,
+    ext:     document.getElementById('m-ext').value,
+    prazo:   parseInt(document.getElementById('m-prazo').value)||60,
+    status: 'Nao iniciado', notas: '',
+  };
+  if (idx !== '') {
+    // Edicao: preserva status e notas existentes
+    item.status = state.prioridades[idx].status;
+    item.notas  = state.prioridades[idx].notas;
+    state.prioridades[idx] = item;
+  } else {
+    state.prioridades.push(item); // Nova tarefa
+  }
+  saveState(); closeModal(); renderTable();
+}
+
+// Filtro de tema na tabela
+function filterTable(f, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable(f);
+}
+
+/* ==========================================
+   HISTORICO: RENDERIZACAO E RESTAURACAO
+   ========================================== */
+function renderHistorico() {
+  const tbody = document.getElementById('hist-tbody');
+  const empty = document.getElementById('hist-empty');
+  tbody.innerHTML = '';
+  document.getElementById('h-count').textContent = state.historico.length;
+  empty.style.display = state.historico.length===0 ? 'block' : 'none';
+
+  state.historico.forEach((p,i) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><span class="tema-badge" style="background:#1a1a2a;border:1px solid #444;color:#aaa">${p.tema.split(' ')[0]}</span></td>
+      <td style="font-weight:600">${p.subtema}</td>
+      <td style="font-size:13px;color:var(--muted)">${p.acao}</td>
+      <td><span class="resp-badge">${p.resp}</span></td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px">${p.prazo}d</td>
+      <td><span class="resp-badge" style="color:var(--green)">${p.status}</span></td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">${p.arquivadoEm||'-'}</td>
+      <td><button class="btn-action" onclick="restaurarItem(${i})">Restaurar</button></td>`;
+    tbody.appendChild(row);
+  });
+}
+
+// Devolve item do historico para a lista de prioridades
+// Reinsere na posicao correta: junto com itens do mesmo tema
+function restaurarItem(i) {
+  const item = state.historico.splice(i,1)[0];
+  delete item.arquivadoEm;
+
+  // Procura o indice do ultimo item do mesmo tema na lista de prioridades
+  // para reinserir logo apos ele (mantendo a organizacao por tema)
+  let insertIdx = -1;
+  state.prioridades.forEach((p, idx) => {
+    if (p.tema === item.tema) insertIdx = idx;
+  });
+
+  if (insertIdx === -1) {
+    // Tema nao encontrado na lista: adiciona ao final
+    state.prioridades.push(item);
+  } else {
+    // Insere logo apos o ultimo item do mesmo tema
+    state.prioridades.splice(insertIdx + 1, 0, item);
+  }
+
+  saveState(); renderTable(); renderHistorico();
+}
+
+/* ==========================================
+   DASHBOARD: PROXIMOS VENCIMENTOS, RESPONSAVEIS, STATUS
+   Chamado sempre que a aba Dashboard e aberta
+   ========================================== */
+function renderDashboard() {
+  // Top 5 vencimentos mais proximos (excluindo concluidos)
+  const criticos = [...state.prioridades]
+    .map((p,i) => ({...p, rest:diasRest(p.prazo), idx:i}))
+    .filter(p => p.status!=='Concluido')
+    .sort((a,b) => a.rest-b.rest).slice(0,5);
+
+  document.getElementById('dash-criticos').innerHTML = criticos.length===0
+    ? '<p style="color:var(--muted);font-size:13px">Nenhum item pendente.</p>'
+    : criticos.map(p => {
+        const cor = p.rest<0?'var(--red)':p.rest<=15?'var(--yellow)':'var(--green)';
+        const lbl = p.rest<0?`Vencido ha ${Math.abs(p.rest)}d`:`${p.rest} dias`;
+        return `<div class="critical-item"><div><div class="ci-name">${p.subtema}</div><div class="ci-sub">${p.resp} - ${p.tema.split(' ')[0]}</div></div><div class="ci-days" style="color:${cor}">${lbl}</div></div>`;
+      }).join('');
+
+  // Distribuicao por responsavel
+  const rm = {};
+  state.prioridades.forEach(p => {
+    if (!rm[p.resp]) rm[p.resp] = {total:0,done:0};
+    rm[p.resp].total++;
+    if (p.status==='Concluido') rm[p.resp].done++;
+  });
+  document.getElementById('dash-resp').innerHTML = Object.entries(rm).map(([r,v]) => {
+    const pct = Math.round(v.done/v.total*100);
+    return `<div class="resp-row"><div class="resp-label"><strong>${r}</strong><span>${v.done}/${v.total}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div></div>`;
+  }).join('');
+
+  // Distribuicao por status
+  const sm = {'Nao iniciado':0,'Em andamento':0,'Bloqueado':0,'Concluido':0};
+  state.prioridades.forEach(p => { if(sm[p.status]!==undefined) sm[p.status]++; });
+  const tot = state.prioridades.length||1;
+  const sc = {'Nao iniciado':'var(--muted)','Em andamento':'var(--accent)','Bloqueado':'var(--red)','Concluido':'var(--green)'};
+  document.getElementById('dash-status').innerHTML = Object.entries(sm).map(([s,v]) =>
+    `<div class="resp-row"><div class="resp-label"><strong style="color:${sc[s]}">${s}</strong><span>${v} itens</span></div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/tot*100)}%;background:${sc[s]}"></div></div></div>`
+  ).join('');
+}
+
+/* ==========================================
+   OBZ: RENDERIZACAO DAS TRES AREAS
+   Gera tabelas de gabinete, dadh e dbens
+   Atualiza totais financeiros no cabecalho
+   ========================================== */
+function renderObz() {
+  ['gabinete','dadh','dbens'].forEach(area => {
+    const tbody = document.getElementById(`obz-${area}`);
+    tbody.innerHTML = '';
+    state.obz[area].forEach((item,i) => {
+      const total = item.vol * item.preco * item.freq;
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td style="font-weight:600;max-width:200px">${item.desc}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">${item.elem}</td>
+        <td><span class="cenario-badge cenario-${item.cenario.toLowerCase()}">${item.cenario}</span></td>
+        <td><span class="${item.novo==='SIM'?'novo-sim':'novo-nao'}">${item.novo}</span></td>
+        <td style="font-family:'DM Mono',monospace;text-align:right">${item.vol}</td>
+        <td style="font-family:'DM Mono',monospace;text-align:right">${brl(item.preco)}</td>
+        <td style="font-family:'DM Mono',monospace;text-align:center">${item.freq}x</td>
+        <td style="font-family:'DM Mono',monospace;font-weight:700;color:${item.cenario==='LIMIAR'?'var(--green)':'var(--yellow)'}">${brl(total)}</td>
+        <td style="white-space:nowrap">
+          <button class="btn-action" onclick="editObzItem('${area}',${i})">Editar</button>
+          <button class="btn-action del" onclick="deletarObzItem('${area}',${i})">Excluir</button>
+        </td>`;
+      tbody.appendChild(row);
+    });
+  });
+
+  // Recalcula totais financeiros somando todas as areas
+  let tg=0, tl=0, ti=0, ct=0;
+  ['gabinete','dadh','dbens'].forEach(area => {
+    state.obz[area].forEach(item => {
+      const v = item.vol*item.preco*item.freq;
+      tg+=v; ct++;
+      if (item.cenario==='LIMIAR') tl+=v; else ti+=v;
+    });
+  });
+  document.getElementById('obz-total').textContent       = brl(tg);
+  document.getElementById('obz-limiar').textContent      = brl(tl);
+  document.getElementById('obz-incremental').textContent = brl(ti);
+  document.getElementById('obz-count').textContent       = ct;
+
+  // Mostra aviso de DBENS pendente somente se a area estiver vazia
+  const dbensVazio = state.obz.dbens.length===0;
+  document.getElementById('dbens-pendente').style.display      = dbensVazio?'flex':'none';
+  document.getElementById('obz-pendente-label').style.display  = dbensVazio?'inline':'none';
+}
+
+/* ==========================================
+   OBZ MODAL: ABRIR, EDITAR, SALVAR, FECHAR
+   Reutilizado para as tres areas (gabinete, dadh, dbens)
+   ========================================== */
+function openObzModal(area) {
+  document.getElementById('obz-area').value = area;
+  document.getElementById('obz-edit-idx').value = '';
+  document.getElementById('modal-obz-title').textContent = `Novo Item OBZ - ${area.toUpperCase()}`;
+  ['o-desc','o-elem','o-agrup','o-risco','o-beneficio'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('o-cenario').value='LIMIAR';
+  document.getElementById('o-novo').value='SIM';
+  document.getElementById('o-vol').value=1;
+  document.getElementById('o-preco').value=0;
+  document.getElementById('o-freq').value=1;
+  document.getElementById('modal-obz').classList.add('open');
+}
+
+function editObzItem(area, i) {
+  const it = state.obz[area][i];
+  document.getElementById('obz-area').value = area;
+  document.getElementById('obz-edit-idx').value = i;
+  document.getElementById('modal-obz-title').textContent = `Editar Item - ${area.toUpperCase()}`;
+  document.getElementById('o-desc').value    = it.desc;
+  document.getElementById('o-elem').value    = it.elem;
+  document.getElementById('o-agrup').value   = it.agrup||'';
+  document.getElementById('o-cenario').value = it.cenario;
+  document.getElementById('o-novo').value    = it.novo;
+  document.getElementById('o-vol').value     = it.vol;
+  document.getElementById('o-preco').value   = it.preco;
+  document.getElementById('o-freq').value    = it.freq;
+  document.getElementById('o-risco').value   = it.risco||'';
+  document.getElementById('o-beneficio').value = it.beneficio||'';
+  document.getElementById('modal-obz').classList.add('open');
+}
+
+function closeObzModal() { document.getElementById('modal-obz').classList.remove('open'); }
+
+function saveObzModal() {
+  const area = document.getElementById('obz-area').value;
+  const idx  = document.getElementById('obz-edit-idx').value;
+  const item = {
+    desc:      document.getElementById('o-desc').value,
+    elem:      document.getElementById('o-elem').value,
+    agrup:     document.getElementById('o-agrup').value,
+    cenario:   document.getElementById('o-cenario').value,
+    novo:      document.getElementById('o-novo').value,
+    vol:       parseFloat(document.getElementById('o-vol').value)||0,
+    preco:     parseFloat(document.getElementById('o-preco').value)||0,
+    freq:      parseInt(document.getElementById('o-freq').value)||1,
+    risco:     document.getElementById('o-risco').value,
+    beneficio: document.getElementById('o-beneficio').value,
+  };
+  if (idx!=='') state.obz[area][idx]=item; else state.obz[area].push(item);
+  saveState(); closeObzModal(); renderObz();
+}
+
+function deletarObzItem(area, i) {
+  if (!confirm('Excluir este item do OBZ?')) return;
+  state.obz[area].splice(i,1);
+  saveState(); renderObz();
+}
+
+
+/* ==========================================
+   FUNCAO AUXILIAR: atualiza campo direto na tabela
+   Usada pelos inputs inline de Resp. e Ext.
+   ========================================== */
+function updateField(i, campo, val) {
+  state.prioridades[i][campo] = val;
+  saveState();
+}
+
+/* ==========================================
+   EXPORTAR / IMPORTAR JSON
+   Exportar: gera arquivo .json e faz download
+   Importar: le arquivo .json e restaura o estado
+   ========================================== */
+function exportarJSON() {
+  const json = JSON.stringify(state, null, 2);
+  const blob = new Blob([json], {type: 'application/json'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `painel-spgf-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importarJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const dados = JSON.parse(e.target.result);
+      if (!dados.prioridades) throw new Error('Arquivo invalido');
+      state = dados;
+      saveState();
+      renderTable(); renderHistorico(); renderObz();
+      alert('Dados importados com sucesso!');
+    } catch(err) {
+      alert('Erro ao importar: arquivo invalido ou corrompido.');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = ''; // reseta o input para permitir reimportar o mesmo arquivo
+}
+
+/* ==========================================
+   CONFIGURACAO DO GITHUB
+   Token, usuario e repositorio ficam no localStorage
+   separado do estado principal (dados do painel)
+   ========================================== */
+function abrirConfigGH() {
+  const cfg = loadGHConfig();
+  document.getElementById('gh-token').value = cfg.token || '';
+  document.getElementById('gh-user').value  = cfg.user  || '';
+  document.getElementById('gh-repo').value  = cfg.repo  || '';
+  document.getElementById('gh-file').value  = cfg.file  || 'dados.json';
+  document.getElementById('modal-gh').classList.add('open');
+}
+
+function fecharConfigGH() { document.getElementById('modal-gh').classList.remove('open'); }
+
+function salvarConfigGH() {
+  const cfg = {
+    token: document.getElementById('gh-token').value.trim(),
+    user:  document.getElementById('gh-user').value.trim(),
+    repo:  document.getElementById('gh-repo').value.trim(),
+    file:  document.getElementById('gh-file').value.trim() || 'dados.json',
+  };
+  localStorage.setItem('spgf_gh_config', JSON.stringify(cfg));
+  fecharConfigGH();
+  setGHStatus('Configuracao salva!', 'var(--green)');
+}
+
+function loadGHConfig() {
+  try { return JSON.parse(localStorage.getItem('spgf_gh_config') || '{}'); } catch(e) { return {}; }
+}
+
+function setGHStatus(msg, cor) {
+  const el = document.getElementById('gh-status');
+  el.textContent = msg;
+  el.style.color = cor || 'var(--muted)';
+  setTimeout(() => { el.textContent = ''; }, 5000);
+}
+
+/* ==========================================
+   SALVAR DADOS NO GITHUB
+   Usa a API do GitHub para criar ou atualizar
+   o arquivo dados.json no repositorio configurado.
+   Requer: token com permissao 'repo'
+   ========================================== */
+async function salvarNoGitHub() {
+  const cfg = loadGHConfig();
+  if (!cfg.token || !cfg.user || !cfg.repo) {
+    alert('Configure o GitHub primeiro (botao Configurar).');
+    return;
+  }
+  setGHStatus('Salvando...', 'var(--yellow)');
+
+  const conteudo = JSON.stringify(state, null, 2);
+  const base64   = btoa(unescape(encodeURIComponent(conteudo))); // encode UTF-8 para base64
+  const apiUrl   = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.file}`;
+
+  try {
+    // Primeiro verifica se o arquivo ja existe para obter o SHA
+    // (necessario para atualizar um arquivo existente na API do GitHub)
+    let sha = null;
+    const check = await fetch(apiUrl, {
+      headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (check.ok) {
+      const data = await check.json();
+      sha = data.sha; // SHA atual do arquivo, necessario para o PUT de atualizacao
+    }
+
+    // Cria ou atualiza o arquivo no GitHub
+    const body = {
+      message: `Dados do painel atualizados em ${new Date().toLocaleString('pt-BR')}`,
+      content: base64,
+      ...(sha ? { sha } : {}) // inclui SHA somente se o arquivo ja existir
+    };
+
+    const res = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${cfg.token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (res.ok) {
+      setGHStatus('Salvo no GitHub!', 'var(--green)');
+    } else {
+      const err = await res.json();
+      setGHStatus(`Erro: ${err.message}`, 'var(--red)');
+    }
+  } catch(e) {
+    setGHStatus('Erro de conexao.', 'var(--red)');
+  }
+}
+
+/* ==========================================
+   CARREGAR DADOS DO GITHUB
+   Busca o arquivo dados.json do repositorio
+   e restaura o estado do painel
+   ========================================== */
+async function carregarDoGitHub() {
+  const cfg = loadGHConfig();
+  if (!cfg.token || !cfg.user || !cfg.repo) {
+    alert('Configure o GitHub primeiro (botao Configurar).');
+    return;
+  }
+  setGHStatus('Carregando...', 'var(--yellow)');
+
+  const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.file}`;
+
+  try {
+    const res = await fetch(apiUrl, {
+      headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+
+    if (!res.ok) {
+      setGHStatus('Arquivo nao encontrado no GitHub.', 'var(--red)');
+      return;
+    }
+
+    const data    = await res.json();
+    // O conteudo vem em base64 do GitHub, precisa decodificar
+    const decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+    const dados   = JSON.parse(decoded);
+
+    if (!dados.prioridades) throw new Error('Formato invalido');
+    state = dados;
+    saveState();
+    renderTable(); renderHistorico(); renderObz();
+    setGHStatus('Dados carregados do GitHub!', 'var(--green)');
+  } catch(e) {
+    setGHStatus('Erro ao carregar dados.', 'var(--red)');
+  }
+}
+
+/* ==========================================
+   INICIALIZACAO
+   Roda todas as renderizacoes ao carregar a pagina
+   ========================================== */
+renderTable();
+renderHistorico();
+renderObz();
+</script>
+
+<!-- MODAL: configuracao do GitHub (token + repositorio) -->
+<div class="modal-overlay" id="modal-gh">
+  <div class="modal">
+    <h3>Configurar GitHub</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">
+      Para sincronizar seus dados com o GitHub, voce precisa de um <strong style="color:var(--text)">Personal Access Token</strong>.<br>
+      Crie em: <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--accent)">github.com/settings/tokens</a>
+      → Generate new token (classic) → marque <strong style="color:var(--text)">repo</strong> → Generate.
+    </p>
+    <div class="gh-config">
+      <input type="password" id="gh-token" placeholder="Token do GitHub (ghp_...)" autocomplete="off">
+      <input type="text" id="gh-user" placeholder="Seu usuario GitHub (ex: joaosilva)">
+      <input type="text" id="gh-repo" placeholder="Nome do repositorio (ex: painel-spgf)">
+      <input type="text" id="gh-file" placeholder="Nome do arquivo de dados (ex: dados.json)" value="dados.json">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="fecharConfigGH()">Cancelar</button>
+      <button class="btn-primary" onclick="salvarConfigGH()">Salvar configuracao</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
