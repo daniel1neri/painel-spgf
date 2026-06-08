@@ -168,32 +168,7 @@
   ],
   "historico": [],
   "obz": {
-    "gabinete": [
-      {
-        "desc": "Alta Lideranca - Cursos de Formacao e Capacitacoes",
-        "elem": "3948 - Cursos de formacao cap. e pos-graduacao",
-        "agrup": "Cursos de formacao",
-        "cenario": "LIMIAR",
-        "novo": "SIM",
-        "vol": 1,
-        "preco": 400000,
-        "freq": 1,
-        "risco": "Restricao a participacao em eventos",
-        "beneficio": "Possibilitar participacao em eventos de capacitacao"
-      },
-      {
-        "desc": "Alta Lideranca - Demais Despesas de Custeio",
-        "elem": "3999 - Outros servicos - Pessoa Juridica",
-        "agrup": "Demais despesas de custeio",
-        "cenario": "INCREMENTAL",
-        "novo": "SIM",
-        "vol": 1,
-        "preco": 300000,
-        "freq": 1,
-        "risco": "Restricao a participacao em eventos",
-        "beneficio": "Possibilitar participacao em eventos de capacitacao"
-      }
-    ],
+    "gabinete": [],
     "dadh": [],
     "dbens": []
   },
