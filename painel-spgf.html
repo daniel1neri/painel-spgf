@@ -141,7 +141,7 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
 
-/* === INPUTS INLINE NA TABELA (Resp. e Ext.) === */
+/* === INPUTS INLINE NA TABELA (Resp., Ext., Data Inicio) === */
 .inline-input {
   background: transparent; border: 1px solid transparent;
   color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px;
@@ -150,33 +150,17 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
 .inline-input:focus { outline: none; border-color: var(--border); background: var(--surface2); color: var(--text); }
 .inline-input::placeholder { color: var(--border); }
 
-/* === BARRA DE FERRAMENTAS (exportar/importar/github) === */
-.toolbar {
-  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 10px; padding: 12px 16px; margin-bottom: 20px;
-}
+
+/* === BARRA DE FERRAMENTAS === */
+.toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 20px; }
 .toolbar-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-right: 4px; }
 .toolbar-sep { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
-.btn-tool {
-  background: var(--surface); border: 1px solid var(--border); color: var(--muted);
-  border-radius: 6px; padding: 6px 14px; font-family: 'Syne', sans-serif;
-  font-size: 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
-}
+.btn-tool { background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 6px 14px; font-family: 'Syne', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
 .btn-tool:hover { color: var(--text); border-color: var(--text); }
 .btn-tool.green:hover { color: var(--green); border-color: var(--green); }
 .btn-tool.blue:hover  { color: var(--accent); border-color: var(--accent); }
 .btn-tool.yellow:hover { color: var(--yellow); border-color: var(--yellow); }
-
-/* === MODAL DE CONFIGURACAO GITHUB === */
-.gh-config { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
-.gh-config input {
-  width: 100%; background: var(--bg); border: 1px solid var(--border);
-  color: var(--text); border-radius: 8px; padding: 10px 12px;
-  font-family: 'DM Mono', monospace; font-size: 13px; outline: none;
-}
-.gh-config input:focus { border-color: var(--accent); }
-.gh-status { font-family: 'DM Mono', monospace; font-size: 12px; margin-top: 6px; min-height: 18px; }
+.gh-status { font-family: 'DM Mono', monospace; font-size: 12px; min-height: 18px; }
 
 @media (max-width: 768px) { body { padding: 16px 12px; } .header-left h1 { font-size: 20px; } td, th { padding: 10px 10px; } .nav-tab { padding: 8px 12px; font-size: 12px; } }
 </style>
@@ -199,15 +183,15 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
 <!-- BARRA DE FERRAMENTAS: exportar, importar e sincronizar com GitHub -->
 <div class="toolbar">
   <span class="toolbar-label">Dados</span>
-  <button class="btn-tool green" onclick="exportarJSON()" title="Baixa um arquivo .json com todos os seus dados">⬇ Exportar JSON</button>
-  <label class="btn-tool blue" style="cursor:pointer" title="Carrega dados de um arquivo .json salvo anteriormente">
-    ⬆ Importar JSON<input type="file" accept=".json" onchange="importarJSON(event)" style="display:none">
+  <button class="btn-tool green" onclick="exportarJSON()">Exportar JSON</button>
+  <label class="btn-tool blue" style="cursor:pointer">
+    Importar JSON<input type="file" accept=".json" onchange="importarJSON(event)" style="display:none">
   </label>
   <div class="toolbar-sep"></div>
   <span class="toolbar-label">GitHub</span>
-  <button class="btn-tool yellow" onclick="abrirConfigGH()" title="Configurar token e repositorio do GitHub">⚙ Configurar</button>
-  <button class="btn-tool green" onclick="salvarNoGitHub()" title="Salva os dados como arquivo JSON no seu repositorio GitHub">☁ Salvar no GitHub</button>
-  <button class="btn-tool blue" onclick="carregarDoGitHub()" title="Carrega os dados salvos no GitHub para o painel">↻ Carregar do GitHub</button>
+  <button class="btn-tool yellow" onclick="abrirConfigGH()">Configurar</button>
+  <button class="btn-tool green" onclick="salvarNoGitHub()">Salvar no GitHub</button>
+  <button class="btn-tool blue" onclick="carregarDoGitHub()">Carregar do GitHub</button>
   <span class="gh-status" id="gh-status"></span>
 </div>
 
@@ -241,7 +225,7 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
     <table>
       <thead><tr>
         <th>Tema</th><th>Subtema</th><th>Risco</th><th>Acao</th>
-        <th>Resp.</th><th>Ext.</th><th>Prazo</th><th>Vencimento</th>
+        <th>Resp.</th><th>Ext.</th><th>Inicio</th><th>Prazo</th><th>Vencimento</th>
         <th>Status</th><th>Notas</th><th>Acoes</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
@@ -342,7 +326,7 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
     <label>Acao</label><textarea id="m-acao" placeholder="Descreva a acao a ser executada..."></textarea>
     <label>Responsavel</label><input type="text" id="m-resp" placeholder="Ex: DCTA">
     <label>Relacionamento externo</label><input type="text" id="m-ext" placeholder="Ex: STI (deixe vazio se nao houver)">
-    <label>Prazo (dias a partir de 20/05)</label><input type="number" id="m-prazo" value="60" min="1">
+    <label>Data de inicio</label><input type="date" id="m-data-inicio"><label>Prazo (dias)</label><input type="number" id="m-prazo" value="60" min="1">
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
       <button class="btn-primary" onclick="saveModal()">Salvar</button>
@@ -515,7 +499,7 @@ function renderTable(filtro) {
     if (p.tema !== lastTema) {
       lastTema = p.tema;
       const sec = document.createElement('tr');
-      sec.innerHTML = `<td colspan="11" class="section-title">${p.tema}</td>`;
+      sec.innerHTML = `<td colspan="12" class="section-title">${p.tema}</td>`;
       tbody.appendChild(sec);
     }
 
@@ -533,6 +517,7 @@ function renderTable(filtro) {
       <td style="font-size:13px;max-width:190px">${p.acao}</td>
       <td><input class="inline-input" value="${p.resp||''}" placeholder="Resp." onchange="updateField(${i},'resp',this.value)" style="width:70px"></td>
       <td><input class="inline-input" value="${p.ext||''}" placeholder="Ext." onchange="updateField(${i},'ext',this.value)" style="width:60px"></td>
+      <td><input class="inline-input" type="date" value="${p.dataInicio||''}" onchange="updateField(${i},'dataInicio',this.value)" style="width:130px"></td>
       <td>
         <div class="prazo-bar">
           <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${corBarra(pct)}"></div></div>
@@ -622,7 +607,8 @@ function editItem(i) {
   document.getElementById('m-acao').value    = p.acao;
   document.getElementById('m-resp').value    = p.resp;
   document.getElementById('m-ext').value     = p.ext||'';
-  document.getElementById('m-prazo').value   = p.prazo;
+  document.getElementById('m-prazo').value      = p.prazo;
+  document.getElementById('m-data-inicio').value = p.dataInicio||'';
   document.getElementById('modal').classList.add('open');
 }
 
@@ -638,7 +624,8 @@ function saveModal() {
     acao:    document.getElementById('m-acao').value,
     resp:    document.getElementById('m-resp').value,
     ext:     document.getElementById('m-ext').value,
-    prazo:   parseInt(document.getElementById('m-prazo').value)||60,
+    prazo:      parseInt(document.getElementById('m-prazo').value)||60,
+    dataInicio: document.getElementById('m-data-inicio').value,
     status: 'Nao iniciado', notas: '',
   };
   if (idx !== '') {
@@ -862,18 +849,7 @@ function deletarObzItem(area, i) {
 
 
 /* ==========================================
-   FUNCAO AUXILIAR: atualiza campo direto na tabela
-   Usada pelos inputs inline de Resp. e Ext.
-   ========================================== */
-function updateField(i, campo, val) {
-  state.prioridades[i][campo] = val;
-  saveState();
-}
-
-/* ==========================================
-   EXPORTAR / IMPORTAR JSON
-   Exportar: gera arquivo .json e faz download
-   Importar: le arquivo .json e restaura o estado
+   EXPORTAR JSON - gera arquivo .json e faz download
    ========================================== */
 function exportarJSON() {
   const json = JSON.stringify(state, null, 2);
@@ -886,6 +862,9 @@ function exportarJSON() {
   URL.revokeObjectURL(url);
 }
 
+/* ==========================================
+   IMPORTAR JSON - le arquivo e restaura estado
+   ========================================== */
 function importarJSON(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -893,7 +872,7 @@ function importarJSON(event) {
   reader.onload = e => {
     try {
       const dados = JSON.parse(e.target.result);
-      if (!dados.prioridades) throw new Error('Arquivo invalido');
+      if (!dados.prioridades) throw new Error('invalido');
       state = dados;
       saveState();
       renderTable(); renderHistorico(); renderObz();
@@ -903,14 +882,26 @@ function importarJSON(event) {
     }
   };
   reader.readAsText(file);
-  event.target.value = ''; // reseta o input para permitir reimportar o mesmo arquivo
+  event.target.value = '';
 }
 
 /* ==========================================
-   CONFIGURACAO DO GITHUB
-   Token, usuario e repositorio ficam no localStorage
-   separado do estado principal (dados do painel)
+   CONFIGURACAO GITHUB
+   Token, usuario e repo ficam em localStorage
+   separado do estado principal do painel
    ========================================== */
+function loadGHConfig() {
+  try { return JSON.parse(localStorage.getItem('spgf_gh_config') || '{}'); } catch(e) { return {}; }
+}
+
+function setGHStatus(msg, cor) {
+  const el = document.getElementById('gh-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.color = cor || 'var(--muted)';
+  setTimeout(() => { el.textContent = ''; }, 5000);
+}
+
 function abrirConfigGH() {
   const cfg = loadGHConfig();
   document.getElementById('gh-token').value = cfg.token || '';
@@ -920,7 +911,9 @@ function abrirConfigGH() {
   document.getElementById('modal-gh').classList.add('open');
 }
 
-function fecharConfigGH() { document.getElementById('modal-gh').classList.remove('open'); }
+function fecharConfigGH() {
+  document.getElementById('modal-gh').classList.remove('open');
+}
 
 function salvarConfigGH() {
   const cfg = {
@@ -934,22 +927,10 @@ function salvarConfigGH() {
   setGHStatus('Configuracao salva!', 'var(--green)');
 }
 
-function loadGHConfig() {
-  try { return JSON.parse(localStorage.getItem('spgf_gh_config') || '{}'); } catch(e) { return {}; }
-}
-
-function setGHStatus(msg, cor) {
-  const el = document.getElementById('gh-status');
-  el.textContent = msg;
-  el.style.color = cor || 'var(--muted)';
-  setTimeout(() => { el.textContent = ''; }, 5000);
-}
-
 /* ==========================================
    SALVAR DADOS NO GITHUB
-   Usa a API do GitHub para criar ou atualizar
-   o arquivo dados.json no repositorio configurado.
-   Requer: token com permissao 'repo'
+   Cria ou atualiza o arquivo dados.json no repositorio.
+   SHA e necessario para atualizar arquivo existente.
    ========================================== */
 async function salvarNoGitHub() {
   const cfg = loadGHConfig();
@@ -958,55 +939,34 @@ async function salvarNoGitHub() {
     return;
   }
   setGHStatus('Salvando...', 'var(--yellow)');
-
   const conteudo = JSON.stringify(state, null, 2);
-  const base64   = btoa(unescape(encodeURIComponent(conteudo))); // encode UTF-8 para base64
+  const base64   = btoa(unescape(encodeURIComponent(conteudo)));
   const apiUrl   = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.file}`;
-
   try {
-    // Primeiro verifica se o arquivo ja existe para obter o SHA
-    // (necessario para atualizar um arquivo existente na API do GitHub)
+    // Busca SHA do arquivo atual (necessario para update)
     let sha = null;
     const check = await fetch(apiUrl, {
       headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
-    if (check.ok) {
-      const data = await check.json();
-      sha = data.sha; // SHA atual do arquivo, necessario para o PUT de atualizacao
-    }
-
-    // Cria ou atualiza o arquivo no GitHub
-    const body = {
-      message: `Dados do painel atualizados em ${new Date().toLocaleString('pt-BR')}`,
-      content: base64,
-      ...(sha ? { sha } : {}) // inclui SHA somente se o arquivo ja existir
-    };
+    if (check.ok) { const data = await check.json(); sha = data.sha; }
 
     const res = await fetch(apiUrl, {
       method: 'PUT',
-      headers: {
-        'Authorization': `token ${cfg.token}`,
-        'Accept': 'application/vnd.github.v3+json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
+      headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: `Dados atualizados em ${new Date().toLocaleString('pt-BR')}`,
+        content: base64,
+        ...(sha ? { sha } : {})
+      }),
     });
-
-    if (res.ok) {
-      setGHStatus('Salvo no GitHub!', 'var(--green)');
-    } else {
-      const err = await res.json();
-      setGHStatus(`Erro: ${err.message}`, 'var(--red)');
-    }
-  } catch(e) {
-    setGHStatus('Erro de conexao.', 'var(--red)');
-  }
+    if (res.ok) setGHStatus('Salvo no GitHub!', 'var(--green)');
+    else { const err = await res.json(); setGHStatus(`Erro: ${err.message}`, 'var(--red)'); }
+  } catch(e) { setGHStatus('Erro de conexao.', 'var(--red)'); }
 }
 
 /* ==========================================
    CARREGAR DADOS DO GITHUB
-   Busca o arquivo dados.json do repositorio
-   e restaura o estado do painel
+   Busca dados.json do repositorio e restaura estado
    ========================================== */
 async function carregarDoGitHub() {
   const cfg = loadGHConfig();
@@ -1015,32 +975,21 @@ async function carregarDoGitHub() {
     return;
   }
   setGHStatus('Carregando...', 'var(--yellow)');
-
   const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.file}`;
-
   try {
     const res = await fetch(apiUrl, {
       headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
     });
-
-    if (!res.ok) {
-      setGHStatus('Arquivo nao encontrado no GitHub.', 'var(--red)');
-      return;
-    }
-
+    if (!res.ok) { setGHStatus('Arquivo nao encontrado no GitHub.', 'var(--red)'); return; }
     const data    = await res.json();
-    // O conteudo vem em base64 do GitHub, precisa decodificar
     const decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
     const dados   = JSON.parse(decoded);
-
     if (!dados.prioridades) throw new Error('Formato invalido');
     state = dados;
     saveState();
     renderTable(); renderHistorico(); renderObz();
     setGHStatus('Dados carregados do GitHub!', 'var(--green)');
-  } catch(e) {
-    setGHStatus('Erro ao carregar dados.', 'var(--red)');
-  }
+  } catch(e) { setGHStatus('Erro ao carregar dados.', 'var(--red)'); }
 }
 
 /* ==========================================
@@ -1052,20 +1001,19 @@ renderHistorico();
 renderObz();
 </script>
 
-<!-- MODAL: configuracao do GitHub (token + repositorio) -->
+<!-- MODAL: configuracao GitHub -->
 <div class="modal-overlay" id="modal-gh">
   <div class="modal">
     <h3>Configurar GitHub</h3>
     <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">
-      Para sincronizar seus dados com o GitHub, voce precisa de um <strong style="color:var(--text)">Personal Access Token</strong>.<br>
-      Crie em: <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--accent)">github.com/settings/tokens</a>
+      Crie um token em <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--accent)">github.com/settings/tokens</a>
       → Generate new token (classic) → marque <strong style="color:var(--text)">repo</strong> → Generate.
     </p>
-    <div class="gh-config">
-      <input type="password" id="gh-token" placeholder="Token do GitHub (ghp_...)" autocomplete="off">
-      <input type="text" id="gh-user" placeholder="Seu usuario GitHub (ex: joaosilva)">
-      <input type="text" id="gh-repo" placeholder="Nome do repositorio (ex: painel-spgf)">
-      <input type="text" id="gh-file" placeholder="Nome do arquivo de dados (ex: dados.json)" value="dados.json">
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+      <input type="password" id="gh-token" placeholder="Token do GitHub (ghp_...)" autocomplete="off" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px 12px;font-family:'DM Mono',monospace;font-size:13px;outline:none">
+      <input type="text" id="gh-user" placeholder="Seu usuario GitHub (ex: daniel1neri)" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px 12px;font-family:'DM Mono',monospace;font-size:13px;outline:none">
+      <input type="text" id="gh-repo" placeholder="Nome do repositorio (ex: painel-spgf)" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px 12px;font-family:'DM Mono',monospace;font-size:13px;outline:none">
+      <input type="text" id="gh-file" placeholder="Nome do arquivo de dados (ex: dados.json)" value="dados.json" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px 12px;font-family:'DM Mono',monospace;font-size:13px;outline:none">
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="fecharConfigGH()">Cancelar</button>
