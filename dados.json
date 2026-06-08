@@ -19,7 +19,7 @@
       "resp": "DCTA",
       "ext": "",
       "prazo": 60,
-      "status": "Concluido",
+      "status": "Concluído",
       "notas": "Concluso"
     },
     {
@@ -30,7 +30,7 @@
       "resp": "DCTA",
       "ext": "STI",
       "prazo": 100,
-      "status": "Nao iniciado",
+      "status": "Em andamento",
       "notas": ""
     },
     {
@@ -96,8 +96,8 @@
       "resp": "DP",
       "ext": "",
       "prazo": 100,
-      "status": "Concluido",
-      "notas": "Melhorias sendo aplicadas"
+      "status": "Concluído",
+      "notas": "Já finalizado, fase de ajustes."
     },
     {
       "tema": "Automatizacao",
@@ -129,7 +129,7 @@
       "resp": "DAPE",
       "ext": "",
       "prazo": 100,
-      "status": "Nao iniciado",
+      "status": "Concluído",
       "notas": "Em fase de ajustes, até sexta-feira será entregue."
     },
     {
