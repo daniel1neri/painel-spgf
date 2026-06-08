@@ -1,0 +1,201 @@
+{
+  "prioridades": [
+    {
+      "tema": "Aposentadoria",
+      "subtema": "Horizontes de aposentadoria",
+      "risco": "Dificuldade na validacao da planilha",
+      "acao": "Testes na planilha conferindo dados e identificando inconsistencias",
+      "resp": "DCTA",
+      "ext": "",
+      "prazo": 60,
+      "status": "Em andamento",
+      "notas": ""
+    },
+    {
+      "tema": "Aposentadoria",
+      "subtema": "Abono de permanencia",
+      "risco": "Beneficio indevido",
+      "acao": "Acerto nova interpretacao e Concessao automatica",
+      "resp": "DCTA",
+      "ext": "",
+      "prazo": 60,
+      "status": "Concluido",
+      "notas": "Concluso"
+    },
+    {
+      "tema": "Aposentadoria",
+      "subtema": "Simulador de data",
+      "risco": "Excesso de parametros",
+      "acao": "Disponibilizacao de aplicativo para os servidores",
+      "resp": "DCTA",
+      "ext": "STI",
+      "prazo": 100,
+      "status": "Nao iniciado",
+      "notas": ""
+    },
+    {
+      "tema": "Aposentadoria",
+      "subtema": "Simulador de proventos",
+      "risco": "Excesso de parametros",
+      "acao": "Disponibilizacao de planilha automatizada no Excel",
+      "resp": "DCTA",
+      "ext": "",
+      "prazo": 100,
+      "status": "Nao iniciado",
+      "notas": ""
+    },
+    {
+      "tema": "Automatizacao",
+      "subtema": "Concessao do quinquenio",
+      "risco": "Controle precario",
+      "acao": "Sistematizar concessoes extraindo dados mensais do painel funcional",
+      "resp": "DCTA",
+      "ext": "",
+      "prazo": 100,
+      "status": "Nao iniciado",
+      "notas": ""
+    },
+    {
+      "tema": "Automatizacao",
+      "subtema": "Concessao de ferias-premio",
+      "risco": "Controle precario",
+      "acao": "Sistematizar concessoes extraindo dados mensais do painel funcional",
+      "resp": "DCTA",
+      "ext": "",
+      "prazo": 100,
+      "status": "Nao iniciado",
+      "notas": ""
+    },
+    {
+      "tema": "Automatizacao",
+      "subtema": "Concessao de abono de permanencia",
+      "risco": "Controle precario",
+      "acao": "Automatizacao da geracao de dados a partir do horizonte de aposentadoria",
+      "resp": "DCTA",
+      "ext": "",
+      "prazo": 100,
+      "status": "Nao iniciado",
+      "notas": ""
+    },
+    {
+      "tema": "Automatizacao",
+      "subtema": "Evolucao na carreira",
+      "risco": "Controle precario",
+      "acao": "Sistematizar concessoes extraindo dados mensais do painel funcional",
+      "resp": "DCTA",
+      "ext": "",
+      "prazo": 100,
+      "status": "Nao iniciado",
+      "notas": ""
+    },
+    {
+      "tema": "Automatizacao",
+      "subtema": "Jetons",
+      "risco": "Excesso de processos manuais",
+      "acao": "Automatizacao de pagamento de jetons",
+      "resp": "DP",
+      "ext": "",
+      "prazo": 100,
+      "status": "Concluido",
+      "notas": "Melhorias sendo aplicadas"
+    },
+    {
+      "tema": "Automatizacao",
+      "subtema": "Sistema de controle de demandas",
+      "risco": "Controle precario",
+      "acao": "Sistematizar o controle de demanda",
+      "resp": "DAPE",
+      "ext": "STI",
+      "prazo": 100,
+      "status": "Nao iniciado",
+      "notas": ""
+    },
+    {
+      "tema": "Dados Funcionais",
+      "subtema": "Forca de trabalho da SEF",
+      "risco": "Controle precario",
+      "acao": "Sistematizacao",
+      "resp": "DCB",
+      "ext": "STI",
+      "prazo": 100,
+      "status": "Nao iniciado",
+      "notas": ""
+    },
+    {
+      "tema": "Dados Financeiros e Funcionais",
+      "subtema": "Aprimoramento do painel da DAPE",
+      "risco": "Morosidade na geracao de informacoes",
+      "acao": "Inclusao dos modulos de aposentadoria e cargos comissionados",
+      "resp": "DAPE",
+      "ext": "",
+      "prazo": 100,
+      "status": "Concluido",
+      "notas": "Em fase de ajustes, até sexta-feira será entregue."
+    },
+    {
+      "tema": "Posse e Exercicio",
+      "subtema": "Otimizacao de processo",
+      "risco": "Excesso de processos manuais",
+      "acao": "Inclusao do processo no SEI",
+      "resp": "DCB",
+      "ext": "",
+      "prazo": 60,
+      "status": "Em andamento",
+      "notas": "Aguardando retorno da reunião com a SEPLAG"
+    },
+    {
+      "tema": "Movimentacao de Servidor",
+      "subtema": "SISREOP",
+      "risco": "Dependencia externa",
+      "acao": "Assumir a Gestao do Sistema",
+      "resp": "DCB",
+      "ext": "STI",
+      "prazo": 100,
+      "status": "Nao iniciado",
+      "notas": ""
+    },
+    {
+      "tema": "Pagamento",
+      "subtema": "Sistema de Acerto de Pagamento",
+      "risco": "Dependencia externa",
+      "acao": "Assumir a Gestao do Sistema",
+      "resp": "DP",
+      "ext": "STI",
+      "prazo": 100,
+      "status": "Nao iniciado",
+      "notas": ""
+    }
+  ],
+  "historico": [],
+  "obz": {
+    "gabinete": [
+      {
+        "desc": "Alta Lideranca - Cursos de Formacao e Capacitacoes",
+        "elem": "3948 - Cursos de formacao cap. e pos-graduacao",
+        "agrup": "Cursos de formacao",
+        "cenario": "LIMIAR",
+        "novo": "SIM",
+        "vol": 1,
+        "preco": 400000,
+        "freq": 1,
+        "risco": "Restricao a participacao em eventos",
+        "beneficio": "Possibilitar participacao em eventos de capacitacao"
+      },
+      {
+        "desc": "Alta Lideranca - Demais Despesas de Custeio",
+        "elem": "3999 - Outros servicos - Pessoa Juridica",
+        "agrup": "Demais despesas de custeio",
+        "cenario": "INCREMENTAL",
+        "novo": "SIM",
+        "vol": 1,
+        "preco": 300000,
+        "freq": 1,
+        "risco": "Restricao a participacao em eventos",
+        "beneficio": "Possibilitar participacao em eventos de capacitacao"
+      }
+    ],
+    "dadh": [],
+    "dbens": []
+  },
+  "filtro": "all"
+}
