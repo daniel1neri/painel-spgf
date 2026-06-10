@@ -115,7 +115,7 @@
       "subtema": "Forca de trabalho da SEF",
       "risco": "Controle precario",
       "acao": "Sistematizacao",
-      "resp": "DCB",
+      "resp": "DANIEL/DCB",
       "ext": "STI",
       "prazo": 100,
       "status": "Nao iniciado",
@@ -159,10 +159,22 @@
       "subtema": "Sistema de Acerto de Pagamento",
       "risco": "Dependencia externa",
       "acao": "Assumir a Gestao do Sistema",
-      "resp": "DP",
+      "resp": "ROBERT/DP",
       "ext": "STI",
       "prazo": 100,
       "status": "Nao iniciado",
+      "notas": ""
+    },
+    {
+      "tema": "Automatizacao",
+      "subtema": "Agendamento Presencial",
+      "risco": "Distanciamento e falta de acolhimento com o servidor",
+      "acao": "Iniciar uma sprint no Service Now para desenvolver o serviço de atendimento presencial",
+      "resp": "DANIEL e ANA CRISTINA",
+      "ext": "STI",
+      "prazo": 60,
+      "dataInicio": "2026-06-01",
+      "status": "Em andamento",
       "notas": ""
     }
   ],
