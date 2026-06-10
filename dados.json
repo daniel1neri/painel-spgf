@@ -141,18 +141,20 @@
       "ext": "",
       "prazo": 100,
       "status": "Em andamento",
-      "notas": "DIVIDIR O PAINEL EM FRENTES\n\nUM DE CARGO COMISSIONADO RESTRITO\n\nE UM DE  GESTÃO DE PESSOAS - INCLUIR APOSENTADORIA\n"
+      "notas": "DIVIDIR O PAINEL EM FRENTES\n\nUM DE CARGO COMISSIONADO RESTRITO\n\nE UM DE  GESTÃO DE PESSOAS - INCLUIR APOSENTADORIA\n",
+      "dataInicio": "2026-06-01"
     },
     {
       "tema": "Posse e Exercicio",
       "subtema": "Otimizacao de processo",
       "risco": "Excesso de processos manuais",
       "acao": "Inclusao do processo no SEI",
-      "resp": "GIOVANNA/DCB",
+      "resp": "GIOVANNA/FELIPE",
       "ext": "",
       "prazo": 60,
       "status": "Em andamento",
-      "notas": "Aguardando retorno da reunião com a SEPLAG"
+      "notas": "",
+      "dataInicio": "2026-06-01"
     },
     {
       "tema": "Movimentacao de Servidor",
@@ -163,25 +165,27 @@
       "ext": "STI",
       "prazo": 100,
       "status": "Nao iniciado",
-      "notas": ""
+      "notas": "",
+      "dataInicio": "2026-08-01"
     },
     {
       "tema": "Pagamento",
       "subtema": "Sistema de Acerto de Pagamento",
       "risco": "Dependencia externa",
       "acao": "Assumir a Gestao do Sistema",
-      "resp": "ROBERT/DP",
+      "resp": "MARCOS/ROBERT/DP",
       "ext": "STI",
       "prazo": 100,
       "status": "Nao iniciado",
-      "notas": ""
+      "notas": "",
+      "dataInicio": "2026-06-29"
     },
     {
       "tema": "Automatizacao",
       "subtema": "Agendamento Presencial",
       "risco": "Distanciamento e falta de acolhimento com o servidor",
       "acao": "Iniciar uma sprint no Service Now para desenvolver o serviço de atendimento presencial",
-      "resp": "DANIEL e ANA CRISTINA",
+      "resp": "DANIEL/ANA CRISTINA",
       "ext": "STI",
       "prazo": 60,
       "dataInicio": "2026-06-01",
