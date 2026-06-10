@@ -152,7 +152,7 @@
       "subtema": "SISREOP",
       "risco": "Dependencia externa",
       "acao": "Assumir a Gestao do Sistema",
-      "resp": "DCB",
+      "resp": "DANIEL/DCB",
       "ext": "STI",
       "prazo": 100,
       "status": "Nao iniciado",
@@ -179,6 +179,18 @@
       "prazo": 60,
       "dataInicio": "2026-06-01",
       "status": "Em andamento",
+      "notas": ""
+    },
+    {
+      "tema": "Automatizacao",
+      "subtema": "Estruturação da infraestrutura de dados",
+      "risco": "Risco de não conseguir rodar as aplicações dessenvolvidas",
+      "acao": "Desenvolver a arquitetura de dados, versionamento e aplicação",
+      "resp": "MARLON/DANIEL",
+      "ext": "STI",
+      "prazo": 45,
+      "dataInicio": "2026-06-01",
+      "status": "Não iniciado",
       "notas": ""
     }
   ],
