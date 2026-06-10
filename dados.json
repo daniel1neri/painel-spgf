@@ -202,7 +202,19 @@
       "prazo": 45,
       "dataInicio": "2026-06-01",
       "status": "Em andamento",
-      "notas": "Tivemos conversas iniciais com"
+      "notas": "Tivemos conversas iniciais com os interclocutores"
+    },
+    {
+      "tema": "Automatizacao",
+      "subtema": "Desenvolvimento do sistema de controle de cargos",
+      "risco": "Trabalho manual em excesso/falta de recursos",
+      "acao": "Desenvolvimento de sistema de controle dos cargos comissionados",
+      "resp": "MARLON",
+      "ext": "STI",
+      "prazo": 30,
+      "dataInicio": "2026-06-01",
+      "status": "Não iniciado",
+      "notas": ""
     }
   ],
   "historico": [],
