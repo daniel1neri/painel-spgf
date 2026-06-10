@@ -33,18 +33,20 @@
       "ext": "STI",
       "prazo": 100,
       "status": "Em andamento",
-      "notas": ""
+      "notas": "",
+      "dataInicio": "2026-06-01"
     },
     {
       "tema": "Aposentadoria",
       "subtema": "Simulador de proventos",
       "risco": "Excesso de parametros",
       "acao": "Disponibilizacao de planilha automatizada no Excel",
-      "resp": "DCTA",
+      "resp": "ROBERT/DCTA",
       "ext": "",
       "prazo": 100,
       "status": "Nao iniciado",
-      "notas": ""
+      "notas": "",
+      "dataInicio": "2026-06-15"
     },
     {
       "tema": "Automatizacao",
