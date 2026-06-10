@@ -57,7 +57,8 @@
       "ext": "",
       "prazo": 100,
       "status": "Nao iniciado",
-      "notas": ""
+      "notas": "",
+      "dataInicio": "2026-06-22"
     },
     {
       "tema": "Automatizacao",
@@ -68,7 +69,8 @@
       "ext": "",
       "prazo": 100,
       "status": "Nao iniciado",
-      "notas": ""
+      "notas": "",
+      "dataInicio": "2026-06-22"
     },
     {
       "tema": "Automatizacao",
@@ -79,7 +81,8 @@
       "ext": "",
       "prazo": 100,
       "status": "Nao iniciado",
-      "notas": ""
+      "notas": "",
+      "dataInicio": "2026-06-22"
     },
     {
       "tema": "Automatizacao",
@@ -90,29 +93,32 @@
       "ext": "",
       "prazo": 100,
       "status": "Nao iniciado",
-      "notas": ""
+      "notas": "",
+      "dataInicio": "2026-06-22"
     },
     {
       "tema": "Automatizacao",
       "subtema": "Jetons",
       "risco": "Excesso de processos manuais",
       "acao": "Automatizacao de pagamento de jetons",
-      "resp": "ROBERT/",
+      "resp": "ROBERT/DENISE",
       "ext": "",
       "prazo": 100,
-      "status": "Concluído",
-      "notas": "Já finalizado, fase de ajustes."
+      "status": "Em andamento",
+      "notas": "EM TESTE",
+      "dataInicio": "2026-06-01"
     },
     {
       "tema": "Automatizacao",
       "subtema": "Sistema de controle de demandas",
       "risco": "Controle precario",
       "acao": "Sistematizar o controle de demanda",
-      "resp": "DAPE",
+      "resp": "LUEMARA",
       "ext": "STI",
       "prazo": 100,
       "status": "Nao iniciado",
-      "notas": ""
+      "notas": "MOMENTO DE ENTENDIMENTO DA DEMANDA",
+      "dataInicio": "2026-06-15"
     },
     {
       "tema": "Dados Funcionais",
