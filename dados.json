@@ -6,10 +6,11 @@
       "risco": "Dificuldade na validacao da planilha",
       "acao": "Testes na planilha conferindo dados e identificando inconsistencias",
       "resp": "MARLON/CINTIA",
-      "ext": "",
+      "ext": "STI",
       "prazo": 60,
       "status": "Em andamento",
-      "notas": "Atrelado ao simulador e o Painel"
+      "notas": "Atrelado ao simulador e o Painel/Verificar interface com a STI",
+      "dataInicio": "2026-06-01"
     },
     {
       "tema": "Aposentadoria",
