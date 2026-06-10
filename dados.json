@@ -125,11 +125,12 @@
       "subtema": "Forca de trabalho da SEF",
       "risco": "Controle precario",
       "acao": "Sistematizacao",
-      "resp": "DANIEL/DCB",
+      "resp": "DANIEL/GIOVANNA/MARCIA",
       "ext": "STI",
       "prazo": 100,
       "status": "Nao iniciado",
-      "notas": ""
+      "notas": "",
+      "dataInicio": "2026-06-15"
     },
     {
       "tema": "Dados Financeiros e Funcionais",
@@ -139,8 +140,8 @@
       "resp": "MARLON/DAPE",
       "ext": "",
       "prazo": 100,
-      "status": "Concluído",
-      "notas": "Em fase de ajustes, até sexta-feira será entregue."
+      "status": "Em andamento",
+      "notas": "DIVIDIR O PAINEL EM FRENTES\n"
     },
     {
       "tema": "Posse e Exercicio",
