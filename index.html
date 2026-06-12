@@ -7,148 +7,148 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0e0f13; --surface: #16181f; --surface2: #1e2029;
-  --border: #2a2d38; --text: #e8eaf0; --muted: #6b7080;
-  --accent: #4f8ef7; --green: #3ecf8e; --yellow: #f5c842;
-  --red: #f76f6f; --orange: #f79a4f;
+  --bg:#0e0f13;--surface:#16181f;--surface2:#1e2029;--border:#2a2d38;
+  --text:#e8eaf0;--muted:#6b7080;--accent:#4f8ef7;--green:#3ecf8e;
+  --yellow:#f5c842;--red:#f76f6f;--orange:#f79a4f;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; padding: 32px 24px; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;padding:32px 24px;}
+header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;flex-wrap:wrap;gap:16px;}
+.header-left h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;line-height:1.1;}
+.header-left h1 span{color:var(--accent);}
+.header-left p{color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;margin-top:6px;}
+.today-badge{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);text-align:right;}
+.today-badge strong{color:var(--text);display:block;font-size:16px;margin-bottom:2px;}
 
-/* CABECALHO */
-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 16px; }
-.header-left h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; }
-.header-left h1 span { color: var(--accent); }
-.header-left p { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; margin-top: 6px; }
-.today-badge { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); text-align: right; }
-.today-badge strong { color: var(--text); display: block; font-size: 16px; margin-bottom: 2px; }
+/* SYNC BAR */
+.sync-bar{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);}
+.sync-info{display:flex;align-items:center;gap:10px;}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;}
+.sync-dot.ok{background:var(--green);}
+.sync-dot.erro{background:var(--red);animation:pulse 1.5s infinite;}
+.sync-dot.load{background:var(--yellow);animation:pulse 0.8s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.sync-actions{display:flex;gap:8px;align-items:center;}
 
-/* STATUS BAR (igual ao bolao) */
-.sync-bar { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 16px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
-.sync-bar .sync-info { display: flex; align-items: center; gap: 10px; }
-.sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
-.sync-dot.ok   { background: var(--green); }
-.sync-dot.erro { background: var(--red); animation: pulse 1.5s infinite; }
-.sync-dot.load { background: var(--yellow); animation: pulse 0.8s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.sync-actions { display: flex; gap: 8px; align-items: center; }
-
-/* BARRA DE FERRAMENTAS */
-.toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 20px; }
-.toolbar-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
-.toolbar-sep { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
-.btn-tool { background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 6px 14px; font-family: 'Syne', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-.btn-tool:hover { color: var(--text); border-color: var(--text); }
-.btn-tool.green:hover { color: var(--green); border-color: var(--green); }
-.btn-tool.blue:hover  { color: var(--accent); border-color: var(--accent); }
-.btn-tool.yellow:hover{ color: var(--yellow); border-color: var(--yellow); }
-.btn-tool.loading { opacity: 0.5; pointer-events: none; }
+/* BOTOES */
+.btn-tool{background:var(--surface);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 14px;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.btn-tool:hover{color:var(--text);border-color:var(--text);}
+.btn-tool.green:hover{color:var(--green);border-color:var(--green);}
+.btn-tool.blue:hover{color:var(--accent);border-color:var(--accent);}
+.btn-tool.loading{opacity:0.5;pointer-events:none;}
+.btn-primary{background:var(--accent);border:none;color:#fff;border-radius:8px;padding:10px 22px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:opacity 0.15s;}
+.btn-primary:hover{opacity:0.85;}
+.btn-secondary{background:var(--surface2);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:10px 22px;font-family:'Syne',sans-serif;font-size:14px;cursor:pointer;}
+.btn-secondary:hover{color:var(--text);}
+.btn-action{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:5px;padding:3px 8px;font-size:12px;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.btn-action:hover{color:var(--text);border-color:var(--text);}
+.btn-action.del:hover{color:var(--red);border-color:var(--red);}
+.btn-action.hist:hover{color:var(--yellow);border-color:var(--yellow);}
+.btn-action.add{background:var(--surface2);border:1px dashed var(--border);color:var(--muted);border-radius:8px;padding:10px 18px;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s;display:block;width:100%;margin-top:8px;text-align:center;}
+.btn-action.add:hover{border-color:var(--accent);color:var(--accent);}
 
 /* ABAS */
-.nav-tabs { display: flex; gap: 4px; margin-bottom: 0; border-bottom: 1px solid var(--border); }
-.nav-tab { background: transparent; border: 1px solid transparent; border-bottom: none; color: var(--muted); font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; padding: 10px 20px; cursor: pointer; border-radius: 8px 8px 0 0; transition: all 0.15s; position: relative; bottom: -1px; }
-.nav-tab:hover { color: var(--text); background: var(--surface); }
-.nav-tab.active { color: var(--accent); background: var(--surface); border-color: var(--border); border-bottom-color: var(--surface); }
-.tab-panel { display: none; background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; padding: 24px; }
-.tab-panel.active { display: block; }
+.nav-tabs{display:flex;gap:4px;margin-bottom:0;border-bottom:1px solid var(--border);}
+.nav-tab{background:transparent;border:1px solid transparent;border-bottom:none;color:var(--muted);font-family:'Syne',sans-serif;font-size:14px;font-weight:600;padding:10px 20px;cursor:pointer;border-radius:8px 8px 0 0;transition:all 0.15s;position:relative;bottom:-1px;}
+.nav-tab:hover{color:var(--text);background:var(--surface);}
+.nav-tab.active{color:var(--accent);background:var(--surface);border-color:var(--border);border-bottom-color:var(--surface);}
+.tab-panel{display:none;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 14px 14px;padding:24px;}
+.tab-panel.active{display:block;}
 
-/* CARDS DE RESUMO */
-.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
-.card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
-.card .label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
-.card .value { font-size: 32px; font-weight: 800; line-height: 1; }
-.card.green .value { color: var(--green); } .card.yellow .value { color: var(--yellow); }
-.card.red .value   { color: var(--red); }   .card.blue .value  { color: var(--accent); }
+/* CARDS */
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px;}
+.card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:18px;}
+.card .label{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;}
+.card .value{font-size:32px;font-weight:800;line-height:1;}
+.card.green .value{color:var(--green);}.card.yellow .value{color:var(--yellow);}
+.card.red .value{color:var(--red);}.card.blue .value{color:var(--accent);}
 
 /* FILTROS */
-.filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-.filter-btn { background: var(--bg); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 6px 14px; font-family: 'Syne', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s; }
-.filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.filter-btn{background:var(--bg);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 14px;font-family:'Syne',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s;}
+.filter-btn:hover,.filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 
 /* TABELA */
-.table-wrap { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
-table { width: 100%; border-collapse: collapse; }
-thead th { background: var(--surface2); font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
-tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
-tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: var(--surface2); }
-td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
+.table-wrap{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;}
+table{width:100%;border-collapse:collapse;}
+thead th{background:var(--surface2);font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);padding:14px 16px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border);transition:background 0.1s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--surface2);}
+td{padding:12px 16px;font-size:14px;vertical-align:top;}
+.section-title{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);}
 
-/* COMPONENTES DAS LINHAS */
-.tema-badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace; white-space: nowrap; }
-.status-select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 5px 10px; font-family: 'Syne', sans-serif; font-size: 12px; cursor: pointer; outline: none; width: 100%; min-width: 130px; }
-.status-select:focus { border-color: var(--accent); }
-.prazo-bar { display: flex; flex-direction: column; gap: 4px; min-width: 110px; }
-.prazo-bar .bar-track { background: var(--border); border-radius: 99px; height: 5px; overflow: hidden; }
-.prazo-bar .bar-fill  { height: 100%; border-radius: 99px; transition: width 0.3s; }
-.prazo-bar .dias-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
-.prazo-bar .dias-label strong { color: var(--text); }
-.notas-input { background: transparent; border: 1px solid transparent; color: var(--muted); font-family: 'Syne', sans-serif; font-size: 13px; width: 100%; min-width: 160px; border-radius: 6px; padding: 4px 8px; resize: none; transition: all 0.15s; line-height: 1.4; }
-.notas-input:focus { outline: none; border-color: var(--border); background: var(--surface2); color: var(--text); }
-.notas-input::placeholder { color: var(--border); }
-.inline-input { background: transparent; border: 1px solid transparent; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; border-radius: 4px; padding: 3px 6px; transition: all 0.15s; width: 100%; }
-.inline-input:focus { outline: none; border-color: var(--border); background: var(--surface2); color: var(--text); }
-.inline-input::placeholder { color: var(--border); }
-.entrega-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; }
-.entrega-label.alert { color: var(--red); font-weight: 500; } .entrega-label.warn { color: var(--yellow); } .entrega-label.ok { color: var(--green); }
-.section-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; padding: 10px 16px; background: var(--surface2); border-bottom: 1px solid var(--border); }
+/* COMPONENTES */
+.tema-badge{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;white-space:nowrap;}
+.status-select{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:5px 10px;font-family:'Syne',sans-serif;font-size:12px;cursor:pointer;outline:none;width:100%;min-width:130px;}
+.status-select:focus{border-color:var(--accent);}
+.prazo-bar{display:flex;flex-direction:column;gap:4px;min-width:110px;}
+.prazo-bar .bar-track{background:var(--border);border-radius:99px;height:5px;overflow:hidden;}
+.prazo-bar .bar-fill{height:100%;border-radius:99px;}
+.prazo-bar .dias-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
+.prazo-bar .dias-label strong{color:var(--text);}
+.notas-input{background:transparent;border:1px solid transparent;color:var(--muted);font-family:'Syne',sans-serif;font-size:13px;width:100%;min-width:160px;border-radius:6px;padding:4px 8px;resize:none;transition:all 0.15s;line-height:1.4;}
+.notas-input:focus{outline:none;border-color:var(--border);background:var(--surface2);color:var(--text);}
+.notas-input::placeholder{color:var(--border);}
+.inline-input{background:transparent;border:1px solid transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;border-radius:4px;padding:3px 6px;transition:all 0.15s;width:100%;}
+.inline-input:focus{outline:none;border-color:var(--border);background:var(--surface2);color:var(--text);}
+.entrega-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;}
+.entrega-label.alert{color:var(--red);font-weight:500;}
+.entrega-label.warn{color:var(--yellow);}
+.entrega-label.ok{color:var(--green);}
 
-/* BOTOES DE ACAO */
-.btn-action { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 5px; padding: 3px 8px; font-size: 12px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-.btn-action:hover     { color: var(--text); border-color: var(--text); }
-.btn-action.del:hover { color: var(--red); border-color: var(--red); }
-.btn-action.hist:hover{ color: var(--yellow); border-color: var(--yellow); }
-.btn-action.add { background: var(--surface2); border: 1px dashed var(--border); color: var(--muted); border-radius: 8px; padding: 10px 18px; font-family: 'Syne', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.15s; display: block; width: 100%; margin-top: 8px; text-align: center; }
-.btn-action.add:hover { border-color: var(--accent); color: var(--accent); }
+/* SAVING INDICATOR */
+.saving-badge{display:none;font-family:'DM Mono',monospace;font-size:11px;color:var(--yellow);padding:3px 8px;border:1px solid var(--yellow);border-radius:4px;}
+.saving-badge.show{display:inline-block;}
 
 /* MODAL */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
-.modal-overlay.open { display: flex; }
-.modal { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px; width: 90%; max-width: 560px; max-height: 90vh; overflow-y: auto; }
-.modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text); }
-.modal label { display: block; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; margin-top: 14px; }
-.modal input, .modal select, .modal textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 10px 12px; font-family: 'Syne', sans-serif; font-size: 14px; outline: none; transition: border-color 0.15s; }
-.modal input:focus, .modal select:focus, .modal textarea:focus { border-color: var(--accent); }
-.modal textarea { resize: vertical; min-height: 70px; }
-.modal-actions { display: flex; gap: 10px; margin-top: 22px; justify-content: flex-end; }
-.btn-primary { background: var(--accent); border: none; color: #fff; border-radius: 8px; padding: 10px 22px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; }
-.btn-primary:hover { opacity: 0.85; }
-.btn-secondary { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); border-radius: 8px; padding: 10px 22px; font-family: 'Syne', sans-serif; font-size: 14px; cursor: pointer; }
-.btn-secondary:hover { color: var(--text); }
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;width:90%;max-width:560px;max-height:90vh;overflow-y:auto;}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:20px;color:var(--text);}
+.modal label{display:block;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;margin-top:14px;}
+.modal input,.modal select,.modal textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px 12px;font-family:'Syne',sans-serif;font-size:14px;outline:none;transition:border-color 0.15s;}
+.modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--accent);}
+.modal textarea{resize:vertical;min-height:70px;}
+.modal-actions{display:flex;gap:10px;margin-top:22px;justify-content:flex-end;}
+.novo-tema-link{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);cursor:pointer;text-decoration:underline;margin-top:6px;display:inline-block;}
 
-/* NOVO TEMA - separador no modal */
-.novo-tema-link { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); cursor: pointer; text-decoration: underline; margin-top: 6px; display: inline-block; }
-.cor-preview { width: 28px; height: 28px; border-radius: 6px; border: 2px solid var(--border); flex-shrink: 0; }
-
-/* HISTORICO */
-.hist-empty { text-align: center; color: var(--muted); font-size: 14px; padding: 48px 0; font-family: 'DM Mono', monospace; }
+/* SETUP MODAL */
+.setup-step{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;}
+.setup-step .step-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);font-weight:700;margin-bottom:6px;}
+.setup-step p{font-size:13px;color:var(--muted);line-height:1.6;}
+.setup-step code{background:var(--surface2);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:12px;color:var(--text);}
+.setup-step a{color:var(--accent);}
 
 /* DASHBOARD */
-.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
-.dash-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.dash-card h4 { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
-.resp-row { margin-bottom: 12px; }
-.resp-row .resp-label { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 12px; margin-bottom: 4px; color: var(--muted); }
-.resp-row .resp-label strong { color: var(--text); }
-.resp-row .bar-track { background: var(--border); border-radius: 99px; height: 6px; overflow: hidden; }
-.resp-row .bar-fill { height: 100%; border-radius: 99px; background: var(--accent); }
-.critical-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); gap: 8px; }
-.critical-item:last-child { border-bottom: none; }
-.critical-item .ci-name { font-size: 13px; font-weight: 600; }
-.critical-item .ci-sub  { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.critical-item .ci-days { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:24px;}
+.dash-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px;}
+.dash-card h4{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;}
+.resp-row{margin-bottom:12px;}
+.resp-row .resp-label{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:12px;margin-bottom:4px;color:var(--muted);}
+.resp-row .resp-label strong{color:var(--text);}
+.resp-row .bar-track{background:var(--border);border-radius:99px;height:6px;overflow:hidden;}
+.resp-row .bar-fill{height:100%;border-radius:99px;background:var(--accent);}
+.critical-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);gap:8px;}
+.critical-item:last-child{border-bottom:none;}
+.critical-item .ci-name{font-size:13px;font-weight:600;}
+.critical-item .ci-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.critical-item .ci-days{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;white-space:nowrap;}
 
 /* TOAST */
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--green); color: #000; padding: 10px 22px; border-radius: 20px; font-size: 13px; font-weight: 700; transition: transform 0.3s; z-index: 9999; font-family: 'Syne', sans-serif; }
-.toast.show { transform: translateX(-50%) translateY(0); }
-.toast.erro  { background: var(--red); color: #fff; }
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--green);color:#000;padding:10px 22px;border-radius:20px;font-size:13px;font-weight:700;transition:transform 0.3s;z-index:9999;font-family:'Syne',sans-serif;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.erro{background:var(--red);color:#fff;}
+.toast.warn{background:var(--yellow);color:#000;}
 
-@media (max-width: 768px) { body { padding: 16px 12px; } .header-left h1 { font-size: 20px; } td, th { padding: 10px 10px; } .nav-tab { padding: 8px 12px; font-size: 12px; } }
+/* HIST EMPTY */
+.hist-empty{text-align:center;color:var(--muted);font-size:14px;padding:48px 0;font-family:'DM Mono',monospace;}
+
+@media(max-width:768px){body{padding:16px 12px;}.header-left h1{font-size:20px;}td,th{padding:10px 10px;}.nav-tab{padding:8px 12px;font-size:12px;}}
 </style>
 </head>
 <body>
 
-<!-- CABECALHO -->
 <header>
   <div class="header-left">
     <h1>Painel de Gestão<br><span>SPGF / SEF-MG</span></h1>
@@ -160,33 +160,33 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
   </div>
 </header>
 
-<!-- BARRA DE SINCRONIZAÇÃO (estilo bolão) -->
+<!-- SYNC BAR -->
 <div class="sync-bar">
   <div class="sync-info">
     <div class="sync-dot load" id="sync-dot"></div>
-    <span id="sync-status">Carregando dados do GitHub...</span>
+    <span id="sync-status">Conectando ao Google Sheets...</span>
+    <span class="saving-badge" id="saving-badge">salvando...</span>
   </div>
   <div class="sync-actions">
-    <button class="btn-tool blue" onclick="carregarDoGitHub(true)" id="btn-reload">↻ Atualizar</button>
-    <button class="btn-tool yellow" onclick="abrirConfigGH()">⚙</button>
-    <button class="btn-tool green" id="btn-salvar" onclick="salvarNoGitHub()" style="display:none">☁ Salvar</button>
+    <button class="btn-tool blue" onclick="carregarDados(true)" id="btn-reload">↻ Atualizar</button>
+    
   </div>
 </div>
 
-<!-- NAVEGACAO POR ABAS -->
+<!-- ABAS -->
 <div class="nav-tabs">
   <button class="nav-tab active" onclick="switchTab('prioridades',this)">📋 Prioridades</button>
   <button class="nav-tab" onclick="switchTab('historico',this)">🗂 Histórico</button>
   <button class="nav-tab" onclick="switchTab('dashboard',this)">📊 Dashboard</button>
 </div>
 
-<!-- ABA 1: PRIORIDADES -->
+<!-- ABA PRIORIDADES -->
 <div class="tab-panel active" id="tab-prioridades">
   <div class="summary">
-    <div class="card blue">  <div class="label">Total</div>        <div class="value" id="s-total">-</div></div>
-    <div class="card green"> <div class="label">Concluídas</div>   <div class="value" id="s-done">-</div></div>
-    <div class="card yellow"><div class="label">Em andamento</div> <div class="value" id="s-prog">-</div></div>
-    <div class="card red">   <div class="label">Não iniciadas</div><div class="value" id="s-not">-</div></div>
+    <div class="card blue"><div class="label">Total</div><div class="value" id="s-total">-</div></div>
+    <div class="card green"><div class="label">Concluídas</div><div class="value" id="s-done">-</div></div>
+    <div class="card yellow"><div class="label">Em andamento</div><div class="value" id="s-prog">-</div></div>
+    <div class="card red"><div class="label">Não iniciadas</div><div class="value" id="s-not">-</div></div>
   </div>
   <div class="filters" id="filters-container"></div>
   <div class="table-wrap">
@@ -202,7 +202,7 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
   <button class="btn-action add" onclick="openModal()">+ Adicionar nova prioridade</button>
 </div>
 
-<!-- ABA 2: HISTORICO -->
+<!-- ABA HISTORICO -->
 <div class="tab-panel" id="tab-historico">
   <div class="summary">
     <div class="card green"><div class="label">Arquivadas</div><div class="value" id="h-count">0</div></div>
@@ -212,7 +212,7 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
       <thead><tr>
         <th>Tema</th><th>Subtema</th><th>Risco</th><th>Ação</th>
         <th>Resp.</th><th>Ext.</th><th>Início</th><th>Prazo</th><th>Vencimento orig.</th>
-        <th>Status final</th><th>Notas</th><th>Arquivado em</th><th>Restaurar</th>
+        <th>Status final</th><th>Notas</th><th>Arquivado em</th><th>Ações</th>
       </tr></thead>
       <tbody id="hist-tbody"></tbody>
     </table>
@@ -220,7 +220,7 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
   <p id="hist-empty" class="hist-empty">Nenhum item arquivado ainda.</p>
 </div>
 
-<!-- ABA 3: DASHBOARD -->
+<!-- ABA DASHBOARD -->
 <div class="tab-panel" id="tab-dashboard">
   <div class="dashboard-grid">
     <div class="dash-card"><h4>⚠ Próximos vencimentos</h4><div id="dash-criticos"></div></div>
@@ -233,17 +233,23 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <h3 id="modal-title">Nova Prioridade</h3>
-    <input type="hidden" id="modal-edit-idx" value="">
+    <input type="hidden" id="modal-edit-row" value="">
     <label>Tema</label>
     <select id="m-tema"></select>
     <span class="novo-tema-link" onclick="abrirModalTema()">+ Criar novo tema</span>
     <label>Subtema</label><input type="text" id="m-subtema" placeholder="Ex: Simulador de data">
-    <label>Risco identificado</label><input type="text" id="m-risco" placeholder="Ex: Excesso de parâmetros">
-    <label>Ação</label><textarea id="m-acao" placeholder="Descreva a ação a ser executada..."></textarea>
-    <label>Responsável</label><input type="text" id="m-resp" placeholder="Ex: DCTA">
-    <label>Relacionamento externo</label><input type="text" id="m-ext" placeholder="Ex: STI">
+    <label>Risco identificado</label><input type="text" id="m-risco">
+    <label>Ação</label><textarea id="m-acao"></textarea>
+    <label>Responsável</label><input type="text" id="m-resp">
+    <label>Relacionamento externo</label><input type="text" id="m-ext">
     <label>Data de início</label><input type="date" id="m-data-inicio">
     <label>Prazo (dias a partir de 01/06/2026)</label><input type="number" id="m-prazo" value="60" min="1">
+    <label>Status</label>
+    <select id="m-status">
+      <option>Não iniciado</option><option>Em andamento</option>
+      <option>Bloqueado</option><option>Concluído</option>
+    </select>
+    <label>Notas</label><textarea id="m-notas" placeholder="Anotações, bloqueios..."></textarea>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
       <button class="btn-primary" onclick="saveModal()">Salvar</button>
@@ -260,7 +266,7 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
     <label>Cor do tema</label>
     <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
       <input type="color" id="t-cor" value="#4f8ef7" style="width:56px;height:40px;padding:2px;cursor:pointer;border-radius:8px">
-      <span style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace">Escolha uma cor para identificar o tema na tabela</span>
+      <span style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace">Escolha uma cor para o tema</span>
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="fecharModalTema()">Cancelar</button>
@@ -269,220 +275,246 @@ td { padding: 12px 16px; font-size: 14px; vertical-align: top; }
   </div>
 </div>
 
-<!-- MODAL: configuração GitHub -->
-<div class="modal-overlay" id="modal-gh">
-  <div class="modal" style="max-width:480px">
-    <h3>Configurar acesso (GitHub)</h3>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:4px;line-height:1.6">
-      Crie um token em <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--accent)">github.com/settings/tokens</a>
-      → Generate new token (classic) → marque <strong style="color:var(--text)">repo</strong> → Generate.
-    </p>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:16px;font-family:'DM Mono',monospace">Usuário e repositório já vêm pré-configurados. Só cole o token.</p>
-    <label>Token do GitHub (ghp_...)</label>
-    <input type="password" id="gh-token" placeholder="Cole aqui seu token" autocomplete="off">
-    <label>Usuário GitHub</label>
-    <input type="text" id="gh-user" value="daniel1neri">
-    <label>Repositório</label>
-    <input type="text" id="gh-repo" value="painel-spgf">
-    <label>Arquivo de dados</label>
-    <input type="text" id="gh-file" value="dados.json">
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="fecharConfigGH()">Cancelar</button>
-      <button class="btn-primary" onclick="salvarConfigGH()">Salvar configuração</button>
-    </div>
-  </div>
-</div>
+<!-- setup modal removido: URL embutida -->
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-/* =====================================================================
-   CONFIGURACAO INICIAL
-   ===================================================================== */
+/* ==========================================================
+   CONSTANTES E ESTADO
+   ========================================================== */
 const START    = new Date('2026-06-01');
 const hoje     = new Date(); hoje.setHours(0,0,0,0);
 const diffDays = Math.floor((hoje - START) / 86400000);
 
 document.getElementById('today-date').textContent =
-  hoje.toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'});
+  hoje.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
 document.getElementById('days-since').textContent = `Dia ${diffDays} desde o início`;
 
-/* =====================================================================
-   PALETA DE CORES PADRÃO DOS TEMAS
-   ===================================================================== */
+// Estado em memória
+let prioridades = [];
+let historico   = [];
+let temas       = {};
+let filtroAtivo = 'all';
+
+// Cores padrão por tema
 const CORES_PADRAO = {
-  'Aposentadoria':                  {bg:'#1a2a3a', border:'#4f8ef7', text:'#7ab8f7'},
-  'Automatizacao':                  {bg:'#1a2e22', border:'#3ecf8e', text:'#3ecf8e'},
-  'Automatização':                  {bg:'#1a2e22', border:'#3ecf8e', text:'#3ecf8e'},
-  'Dados Funcionais':               {bg:'#2a1f12', border:'#f79a4f', text:'#f79a4f'},
-  'Dados Financeiros e Funcionais': {bg:'#2a1a2a', border:'#c084f5', text:'#c084f5'},
-  'Posse e Exercicio':              {bg:'#2a2a12', border:'#f5c842', text:'#f5c842'},
-  'Posse e Exercício':              {bg:'#2a2a12', border:'#f5c842', text:'#f5c842'},
-  'Movimentacao de Servidor':       {bg:'#1a2a2a', border:'#56d9d9', text:'#56d9d9'},
-  'Movimentação de Servidor':       {bg:'#1a2a2a', border:'#56d9d9', text:'#56d9d9'},
-  'Pagamento':                      {bg:'#2a1a1a', border:'#f76f6f', text:'#f76f6f'},
+  'Aposentadoria':                  {bg:'#1a2a3a',border:'#4f8ef7',text:'#7ab8f7'},
+  'Automatizacao':                  {bg:'#1a2e22',border:'#3ecf8e',text:'#3ecf8e'},
+  'Automatização':                  {bg:'#1a2e22',border:'#3ecf8e',text:'#3ecf8e'},
+  'Dados Funcionais':               {bg:'#2a1f12',border:'#f79a4f',text:'#f79a4f'},
+  'Dados Financeiros e Funcionais': {bg:'#2a1a2a',border:'#c084f5',text:'#c084f5'},
+  'Posse e Exercicio':              {bg:'#2a2a12',border:'#f5c842',text:'#f5c842'},
+  'Posse e Exercício':              {bg:'#2a2a12',border:'#f5c842',text:'#f5c842'},
+  'Movimentacao de Servidor':       {bg:'#1a2a2a',border:'#56d9d9',text:'#56d9d9'},
+  'Movimentação de Servidor':       {bg:'#1a2a2a',border:'#56d9d9',text:'#56d9d9'},
+  'Pagamento':                      {bg:'#2a1a1a',border:'#f76f6f',text:'#f76f6f'},
 };
 
-/* =====================================================================
-   ESTADO GLOBAL
-   ===================================================================== */
-function loadState() {
-  // Tenta v5 primeiro (versão atual)
-  try {
-    const raw = localStorage.getItem('spgf_v5');
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.prioridades && parsed.prioridades.length > 0) return parsed;
-    }
-  } catch(e) {}
-  // Fallback: migra dados da versão anterior (spgf_v4)
-  try {
-    const rawV4 = localStorage.getItem('spgf_v4');
-    if (rawV4) {
-      const parsed = JSON.parse(rawV4);
-      if (parsed && parsed.prioridades) {
-        console.log('Migrando dados do spgf_v4...');
-        return { prioridades: parsed.prioridades, historico: parsed.historico||[], temas: {}, filtro: parsed.filtro||'all' };
-      }
-    }
-  } catch(e) {}
-  return { prioridades: [], historico: [], temas: {}, filtro: 'all' };
-}
-
-function saveState() {
-  try { localStorage.setItem('spgf_v5', JSON.stringify(state)); } catch(e) {}
-}
-
-let state = loadState();
-
-/* Garante que temas customizados existam no state */
 function getCores(tema) {
   if (CORES_PADRAO[tema]) return CORES_PADRAO[tema];
-  if (state.temas && state.temas[tema]) return state.temas[tema];
-  // Gera cor automática para temas desconhecidos
-  return {bg:'#1e2029', border:'#6b7080', text:'#9aa0b0'};
+  if (temas[tema]) return temas[tema];
+  return {bg:'#1e2029',border:'#6b7080',text:'#9aa0b0'};
 }
 
-/* =====================================================================
+/* ==========================================================
+   CONFIG (localStorage)
+   ========================================================== */
+function loadConfig() {
+  try {
+    const raw = localStorage.getItem('spgf_sheets_config');
+    return raw ? JSON.parse(raw) : {url:'', temas:{}};
+  } catch(e) { return {url:'', temas:{}}; }
+}
+
+function saveConfig(cfg) {
+  localStorage.setItem('spgf_sheets_config', JSON.stringify(cfg));
+}
+
+function getScriptUrl() {
+  return 'https://script.google.com/macros/s/AKfycbzyD6C3Wm_yBnjAZnZqtHJ_gmdVQAGQxe1Rr2VNkmV8sDj-_yoFOOH5LQAEr1y-XlPU/exec';
+}
+
+/* ==========================================================
    UTILITÁRIOS
-   ===================================================================== */
-function vencimento(prazo) { const d = new Date(START); d.setDate(d.getDate()+prazo); return d; }
+   ========================================================== */
+function vencimento(prazo) { const d=new Date(START); d.setDate(d.getDate()+parseInt(prazo||60)); return d; }
 function diasRest(prazo)   { return Math.floor((vencimento(prazo)-hoje)/86400000); }
 function corBarra(pct)     { return pct>=80?'var(--red)':pct>=50?'var(--yellow)':'var(--green)'; }
 
 function mostrarToast(msg, tipo) {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className = 'toast' + (tipo==='erro' ? ' erro' : '');
+  t.className = 'toast' + (tipo?' '+tipo:'');
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(() => t.classList.remove('show'), 3500);
 }
 
 function setSyncStatus(msg, tipo) {
-  const dot = document.getElementById('sync-dot');
-  const txt = document.getElementById('sync-status');
-  txt.textContent = msg;
-  dot.className = 'sync-dot ' + (tipo||'');
+  document.getElementById('sync-status').textContent = msg;
+  document.getElementById('sync-dot').className = 'sync-dot ' + (tipo||'');
 }
 
-/* =====================================================================
-   TEMAS DINAMICOS
-   ===================================================================== */
-function getTemasList() {
-  const temasDoState = Object.keys(state.temas || {});
-  const temasDosDados = [...new Set(state.prioridades.map(p => p.tema))];
-  const temasPadrao = Object.keys(CORES_PADRAO);
-  return [...new Set([...temasPadrao, ...temasDosDados, ...temasDoState])].sort();
+function showSaving(show) {
+  document.getElementById('saving-badge').classList.toggle('show', show);
 }
 
-function renderFiltros() {
-  const temas = [...new Set(state.prioridades.map(p => p.tema))].sort();
-  let html = `<button class="filter-btn ${state.filtro==='all'?'active':''}" onclick="filterTable('all',this)">Todos</button>`;
-  temas.forEach(t => {
-    html += `<button class="filter-btn ${state.filtro===t?'active':''}" onclick="filterTable('${t.replace(/'/g,"\\'")}',this)">${t}</button>`;
+/* ==========================================================
+   CARREGAR DADOS DO SHEETS
+   ========================================================== */
+async function carregarDados(manual) {
+  const url = getScriptUrl();
+  const btn = document.getElementById('btn-reload');
+  btn.classList.add('loading');
+  setSyncStatus('Buscando dados...', 'load');
+  renderTable(); renderHistorico(); // mostra local enquanto busca
+
+  try {
+    const res  = await fetch(url + '?action=getData', {method:'GET'});
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (!data.prioridades) throw new Error('Resposta inesperada do script');
+
+    prioridades = data.prioridades || [];
+    historico   = data.historico   || [];
+
+    // Preserva temas customizados locais
+    const cfg = loadConfig();
+    temas = Object.assign({}, cfg.temas || {});
+
+    renderTable(); renderHistorico();
+    const agora = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    setSyncStatus(`Atualizado às ${agora} · ${prioridades.length} prioridades`, 'ok');
+    if (manual) mostrarToast('Dados atualizados!');
+  } catch(e) {
+    setSyncStatus('Erro ao carregar: ' + e.message, 'erro');
+    if (manual) mostrarToast('Erro: ' + e.message, 'erro');
+  }
+  btn.classList.remove('loading');
+}
+
+/* ==========================================================
+   SALVAR / ATUALIZAR NO SHEETS
+   ========================================================== */
+async function salvarNoSheets(payload) {
+  const url = getScriptUrl();
+  if (!url) { mostrarToast('Configure o Apps Script primeiro (⚙)', 'warn'); return false; }
+  showSaving(true);
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (data.status !== 'ok') throw new Error(data.message || 'Erro desconhecido');
+    showSaving(false);
+    return true;
+  } catch(e) {
+    showSaving(false);
+    mostrarToast('Erro ao salvar: ' + e.message, 'erro');
+    return false;
+  }
+}
+
+/* ==========================================================
+   MIGRAÇÃO DE DADOS ANTIGOS (GitHub → Sheets)
+   ========================================================== */
+function migrarDadosAntigos() {
+  if (prioridades.length > 0) return;
+  ['spgf_v5','spgf_v4'].forEach(key => {
+    if (prioridades.length > 0) return;
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) {
+        const d = JSON.parse(raw);
+        if (d && d.prioridades && d.prioridades.length > 0) {
+          prioridades = d.prioridades;
+          historico   = d.historico || [];
+          setSyncStatus(`Dados locais carregados (${prioridades.length} itens) — configure o Sheets para sincronizar`, 'warn');
+        }
+      }
+    } catch(e) {}
   });
-  document.getElementById('filters-container').innerHTML = html;
+}
+
+/* ==========================================================
+   TEMAS
+   ========================================================== */
+function getTemasList() {
+  const dosDados = [...new Set(prioridades.map(p => p.tema))];
+  const padrao   = Object.keys(CORES_PADRAO);
+  const custom   = Object.keys(temas);
+  return [...new Set([...padrao, ...dosDados, ...custom])].sort();
 }
 
 function renderSelectTemas(valorAtual) {
   const sel = document.getElementById('m-tema');
-  const temas = getTemasList();
-  // Também inclui temas que já estão nos dados mas podem não estar nos padrões
-  const temasNoDados = [...new Set(state.prioridades.map(p => p.tema))];
-  const todos = [...new Set([...temas, ...temasNoDados])].sort();
+  const todos = getTemasList();
   sel.innerHTML = todos.map(t =>
     `<option value="${t}" ${t===valorAtual?'selected':''}>${t}</option>`
   ).join('');
 }
 
-/* =====================================================================
-   MODAL DE NOVO TEMA
-   ===================================================================== */
 function abrirModalTema() {
   document.getElementById('t-nome').value = '';
   document.getElementById('t-cor').value  = '#4f8ef7';
   document.getElementById('modal-tema').classList.add('open');
 }
-
-function fecharModalTema() {
-  document.getElementById('modal-tema').classList.remove('open');
-}
+function fecharModalTema() { document.getElementById('modal-tema').classList.remove('open'); }
 
 function salvarNovoTema() {
   const nome = document.getElementById('t-nome').value.trim();
   const cor  = document.getElementById('t-cor').value;
   if (!nome) { mostrarToast('Digite o nome do tema.', 'erro'); return; }
-  if (!state.temas) state.temas = {};
-  // Converte hex para cores de tema
-  const r = parseInt(cor.slice(1,3),16);
-  const g = parseInt(cor.slice(3,5),16);
-  const b = parseInt(cor.slice(5,7),16);
-  state.temas[nome] = {
-    bg:     `rgb(${Math.round(r*0.15)},${Math.round(g*0.15)},${Math.round(b*0.15)})`,
-    border: cor,
-    text:   cor,
+  const r=parseInt(cor.slice(1,3),16), g=parseInt(cor.slice(3,5),16), b=parseInt(cor.slice(5,7),16);
+  temas[nome] = {
+    bg:`rgb(${Math.round(r*0.15)},${Math.round(g*0.15)},${Math.round(b*0.15)})`,
+    border:cor, text:cor,
   };
-  saveState();
+  // Salva temas na config local
+  const cfg = loadConfig(); cfg.temas = temas; saveConfig(cfg);
   fecharModalTema();
   renderSelectTemas(nome);
   document.getElementById('m-tema').value = nome;
   mostrarToast(`Tema "${nome}" criado!`);
 }
 
-/* =====================================================================
-   NAVEGACAO POR ABAS
-   ===================================================================== */
+/* ==========================================================
+   SETUP MODAL
+   ========================================================== */
+
+
+
+
 function switchTab(id, btn) {
   document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('tab-' + id).classList.add('active');
-  if (id === 'dashboard') renderDashboard();
+  document.getElementById('tab-'+id).classList.add('active');
+  if (id==='dashboard') renderDashboard();
 }
 
-/* =====================================================================
-   RENDERIZAÇÃO DA TABELA DE PRIORIDADES
-   ===================================================================== */
+/* ==========================================================
+   RENDER TABELA
+   ========================================================== */
 function renderTable(filtro) {
-  if (filtro !== undefined) state.filtro = filtro;
-  const f     = state.filtro;
+  if (filtro !== undefined) filtroAtivo = filtro;
   const tbody = document.getElementById('tbody');
   tbody.innerHTML = '';
   let lastTema = null;
 
-  // Ordena por tema para garantir agrupamento
-  const ordenadas = [...state.prioridades].map((p,i) => ({...p, _idx: i}))
-    .sort((a,b) => a.tema.localeCompare(b.tema));
+  const ordenadas = [...prioridades]
+    .map((p,i) => ({...p, _idx:i}))
+    .sort((a,b) => a.tema.localeCompare(b.tema,'pt-BR'));
 
   ordenadas.forEach(p => {
-    if (f !== 'all' && p.tema !== f) return;
+    if (filtroAtivo !== 'all' && p.tema !== filtroAtivo) return;
     const i    = p._idx;
     const rest = diasRest(p.prazo);
-    const pct  = Math.min(100, Math.round(diffDays/p.prazo*100));
+    const pct  = Math.min(100, Math.round(diffDays / (parseInt(p.prazo)||60) * 100));
     const cor  = getCores(p.tema);
 
-    // Cabeçalho de seção por tema
     if (p.tema !== lastTema) {
       lastTema = p.tema;
       const sec = document.createElement('tr');
@@ -492,22 +524,26 @@ function renderTable(filtro) {
 
     const vencLabel = rest<0
       ? `<span class="entrega-label alert">Vencido há ${Math.abs(rest)}d</span>`
-      : rest<=15 ? `<span class="entrega-label warn">${rest} dias</span>`
-      : `<span class="entrega-label ok">${rest} dias</span>`;
+      : rest<=15 ? `<span class="entrega-label warn">${rest}d restantes</span>`
+      : `<span class="entrega-label ok">${rest}d restantes</span>`;
+
+    const statusOpts = ['Não iniciado','Em andamento','Bloqueado','Concluído'].map(s =>
+      `<option ${(p.status===s||(p.status==='Nao iniciado'&&s==='Não iniciado'))?'selected':''}>${s}</option>`
+    ).join('');
 
     const row = document.createElement('tr');
     row.innerHTML = `
       <td><span class="tema-badge" style="background:${cor.bg};border:1px solid ${cor.border};color:${cor.text}">${p.tema.split(' ')[0]}</span></td>
-      <td style="font-weight:600;max-width:150px">${p.subtema}</td>
-      <td style="color:var(--muted);font-size:13px;max-width:130px">${p.risco}</td>
-      <td style="font-size:13px;max-width:190px">${p.acao}</td>
-      <td><input class="inline-input" value="${p.resp||''}" placeholder="Resp." onchange="updateField(${i},'resp',this.value)" style="width:90px"></td>
-      <td><input class="inline-input" value="${p.ext||''}" placeholder="Ext." onchange="updateField(${i},'ext',this.value)" style="width:60px"></td>
-      <td><input class="inline-input" type="date" value="${p.dataInicio||''}" onchange="updateField(${i},'dataInicio',this.value)" style="width:130px"></td>
+      <td style="font-weight:600;max-width:150px">${p.subtema||''}</td>
+      <td style="color:var(--muted);font-size:13px;max-width:130px">${p.risco||''}</td>
+      <td style="font-size:13px;max-width:190px">${p.acao||''}</td>
+      <td><span style="font-family:'DM Mono',monospace;font-size:12px">${p.resp||''}</span></td>
+      <td><span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">${p.ext||''}</span></td>
+      <td><span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">${p.dataInicio||''}</span></td>
       <td>
         <div class="prazo-bar">
           <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${corBarra(pct)}"></div></div>
-          <span class="dias-label"><strong>${p.prazo}d</strong> · ${pct}% decorrido</span>
+          <span class="dias-label"><strong>${p.prazo||60}d</strong> · ${pct}%</span>
         </div>
       </td>
       <td>
@@ -515,14 +551,9 @@ function renderTable(filtro) {
         ${vencLabel}
       </td>
       <td>
-        <select class="status-select" onchange="updateStatus(${i},this.value)">
-          <option ${(p.status==='Não iniciado'||p.status==='Nao iniciado')?'selected':''}>Não iniciado</option>
-          <option ${p.status==='Em andamento'?'selected':''}>Em andamento</option>
-          <option ${p.status==='Bloqueado'?'selected':''}>Bloqueado</option>
-          <option ${p.status==='Concluído'?'selected':''}>Concluído</option>
-        </select>
+        <select class="status-select" onchange="updateStatus(${i},this.value)">${statusOpts}</select>
       </td>
-      <td><textarea class="notas-input" rows="2" placeholder="Anotação, bloqueio..." onchange="updateNotas(${i},this.value)">${p.notas||''}</textarea></td>
+      <td><textarea class="notas-input" rows="2" placeholder="Anotação..." onchange="updateNotas(${i},this.value)">${p.notas||''}</textarea></td>
       <td style="white-space:nowrap;vertical-align:middle">
         <button class="btn-action" onclick="editItem(${i})">Editar</button>
         <button class="btn-action hist" onclick="arquivarItem(${i})">Arquivar</button>
@@ -535,102 +566,27 @@ function renderTable(filtro) {
   updateSummary();
 }
 
-/* =====================================================================
-   CARDS DE RESUMO
-   ===================================================================== */
+function renderFiltros() {
+  const temasList = [...new Set(prioridades.map(p => p.tema))].sort();
+  let html = `<button class="filter-btn ${filtroAtivo==='all'?'active':''}" onclick="filterTable('all',this)">Todos</button>`;
+  temasList.forEach(t => {
+    html += `<button class="filter-btn ${filtroAtivo===t?'active':''}" onclick="filterTable('${t.replace(/'/g,"\\'")}',this)">${t}</button>`;
+  });
+  document.getElementById('filters-container').innerHTML = html;
+}
+
 function updateSummary() {
   let done=0, prog=0, not=0;
-  state.prioridades.forEach(p => {
+  prioridades.forEach(p => {
     const s = p.status||'';
     if (s==='Concluído') done++;
     else if (s==='Em andamento'||s==='Bloqueado') prog++;
     else not++;
   });
-  document.getElementById('s-total').textContent = state.prioridades.length;
+  document.getElementById('s-total').textContent = prioridades.length;
   document.getElementById('s-done').textContent  = done;
   document.getElementById('s-prog').textContent  = prog;
   document.getElementById('s-not').textContent   = not;
-}
-
-/* =====================================================================
-   AÇÕES: STATUS, NOTAS, CAMPOS
-   ===================================================================== */
-function updateStatus(i, val) { state.prioridades[i].status = val; saveState(); updateSummary(); }
-function updateNotas(i, val)  { state.prioridades[i].notas  = val; saveState(); }
-function updateField(i, campo, val) { state.prioridades[i][campo] = val; saveState(); }
-
-function arquivarItem(i) {
-  if (!confirm('Mover para o Histórico?')) return;
-  const item = state.prioridades.splice(i,1)[0];
-  item.arquivadoEm = new Date().toLocaleDateString('pt-BR');
-  state.historico.push(item);
-  saveState(); renderTable(); renderHistorico();
-}
-
-function deletarItem(i) {
-  if (!confirm('Excluir permanentemente?')) return;
-  state.prioridades.splice(i,1);
-  saveState(); renderTable();
-}
-
-/* =====================================================================
-   MODAL DE PRIORIDADE
-   ===================================================================== */
-function openModal() {
-  document.getElementById('modal-title').textContent = 'Nova Prioridade';
-  document.getElementById('modal-edit-idx').value = '';
-  renderSelectTemas('');
-  ['m-subtema','m-risco','m-acao','m-resp','m-ext'].forEach(id => document.getElementById(id).value='');
-  document.getElementById('m-prazo').value      = 60;
-  document.getElementById('m-data-inicio').value = '';
-  document.getElementById('modal').classList.add('open');
-}
-
-function editItem(i) {
-  const p = state.prioridades[i];
-  document.getElementById('modal-title').textContent = 'Editar Prioridade';
-  document.getElementById('modal-edit-idx').value    = i;
-  renderSelectTemas(p.tema);
-  document.getElementById('m-subtema').value    = p.subtema;
-  document.getElementById('m-risco').value      = p.risco;
-  document.getElementById('m-acao').value       = p.acao;
-  document.getElementById('m-resp').value       = p.resp;
-  document.getElementById('m-ext').value        = p.ext||'';
-  document.getElementById('m-prazo').value      = p.prazo;
-  document.getElementById('m-data-inicio').value = p.dataInicio||'';
-  document.getElementById('modal').classList.add('open');
-}
-
-function closeModal() { document.getElementById('modal').classList.remove('open'); }
-
-function saveModal() {
-  const idx  = document.getElementById('modal-edit-idx').value;
-  const tema = document.getElementById('m-tema').value;
-  const item = {
-    tema,
-    subtema:    document.getElementById('m-subtema').value,
-    risco:      document.getElementById('m-risco').value,
-    acao:       document.getElementById('m-acao').value,
-    resp:       document.getElementById('m-resp').value,
-    ext:        document.getElementById('m-ext').value,
-    prazo:      parseInt(document.getElementById('m-prazo').value)||60,
-    dataInicio: document.getElementById('m-data-inicio').value,
-    status:     'Não iniciado',
-    notas:      '',
-  };
-  if (idx !== '') {
-    item.status = state.prioridades[idx].status;
-    item.notas  = state.prioridades[idx].notas;
-    state.prioridades[idx] = item;
-  } else {
-    // Insere junto com itens do mesmo tema (agrupamento automático)
-    let insertIdx = -1;
-    state.prioridades.forEach((p, idx2) => { if (p.tema === tema) insertIdx = idx2; });
-    if (insertIdx === -1) state.prioridades.push(item);
-    else state.prioridades.splice(insertIdx+1, 0, item);
-  }
-  saveState(); closeModal(); renderTable();
-  mostrarToast(idx !== '' ? 'Prioridade atualizada!' : 'Prioridade adicionada!');
 }
 
 function filterTable(f, btn) {
@@ -639,44 +595,153 @@ function filterTable(f, btn) {
   renderTable(f);
 }
 
-/* =====================================================================
-   HISTÓRICO
-   ===================================================================== */
+/* ==========================================================
+   AÇÕES INLINE (status e notas — grava no Sheets)
+   ========================================================== */
+async function updateStatus(i, val) {
+  prioridades[i].status = val;
+  updateSummary();
+  await salvarNoSheets({action:'updateRow', rowIndex: i, fields:{status:val}});
+}
+
+async function updateNotas(i, val) {
+  prioridades[i].notas = val;
+  await salvarNoSheets({action:'updateRow', rowIndex: i, fields:{notas:val}});
+}
+
+/* ==========================================================
+   MODAL PRIORIDADE
+   ========================================================== */
+function openModal() {
+  document.getElementById('modal-title').textContent = 'Nova Prioridade';
+  document.getElementById('modal-edit-row').value = '';
+  renderSelectTemas('');
+  ['m-subtema','m-risco','m-acao','m-resp','m-ext','m-notas'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('m-prazo').value       = 60;
+  document.getElementById('m-data-inicio').value = '';
+  document.getElementById('m-status').value      = 'Não iniciado';
+  document.getElementById('modal').classList.add('open');
+}
+
+function editItem(i) {
+  const p = prioridades[i];
+  document.getElementById('modal-title').textContent = 'Editar Prioridade';
+  document.getElementById('modal-edit-row').value    = i;
+  renderSelectTemas(p.tema);
+  document.getElementById('m-subtema').value    = p.subtema||'';
+  document.getElementById('m-risco').value      = p.risco||'';
+  document.getElementById('m-acao').value       = p.acao||'';
+  document.getElementById('m-resp').value       = p.resp||'';
+  document.getElementById('m-ext').value        = p.ext||'';
+  document.getElementById('m-prazo').value      = p.prazo||60;
+  document.getElementById('m-data-inicio').value = p.dataInicio||'';
+  document.getElementById('m-status').value     = p.status||'Não iniciado';
+  document.getElementById('m-notas').value      = p.notas||'';
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+async function saveModal() {
+  const idx = document.getElementById('modal-edit-row').value;
+  const item = {
+    tema:       document.getElementById('m-tema').value,
+    subtema:    document.getElementById('m-subtema').value,
+    risco:      document.getElementById('m-risco').value,
+    acao:       document.getElementById('m-acao').value,
+    resp:       document.getElementById('m-resp').value,
+    ext:        document.getElementById('m-ext').value,
+    prazo:      parseInt(document.getElementById('m-prazo').value)||60,
+    dataInicio: document.getElementById('m-data-inicio').value,
+    status:     document.getElementById('m-status').value,
+    notas:      document.getElementById('m-notas').value,
+    arquivado:  'NAO',
+  };
+
+  let action, rowIndex;
+  if (idx !== '') {
+    prioridades[idx] = item;
+    action = 'updateRow'; rowIndex = parseInt(idx);
+  } else {
+    // Insere agrupado pelo tema
+    let insertIdx = -1;
+    prioridades.forEach((p,i) => { if(p.tema===item.tema) insertIdx=i; });
+    if (insertIdx===-1) prioridades.push(item);
+    else prioridades.splice(insertIdx+1, 0, item);
+    action = 'addRow'; rowIndex = null;
+  }
+
+  closeModal();
+  renderTable();
+
+  const ok = await salvarNoSheets({action, rowIndex, item});
+  if (ok) {
+    mostrarToast(idx!=='' ? 'Prioridade atualizada!' : 'Prioridade adicionada!');
+    // Recarrega para garantir sincronismo com o Sheets
+    setTimeout(() => carregarDados(false), 800);
+  }
+}
+
+/* ==========================================================
+   ARQUIVAR / DELETAR
+   ========================================================== */
+async function arquivarItem(i) {
+  if (!confirm('Mover para o Histórico?')) return;
+  const item = prioridades.splice(i,1)[0];
+  item.arquivado    = 'SIM';
+  item.arquivadoEm  = new Date().toLocaleDateString('pt-BR');
+  historico.push(item);
+  renderTable(); renderHistorico();
+  const ok = await salvarNoSheets({action:'arquivarRow', rowIndex: i, arquivadoEm: item.arquivadoEm});
+  if (ok) mostrarToast('Item arquivado!');
+}
+
+async function deletarItem(i) {
+  if (!confirm('Excluir permanentemente?')) return;
+  prioridades.splice(i,1);
+  renderTable();
+  const ok = await salvarNoSheets({action:'deleteRow', rowIndex: i});
+  if (ok) mostrarToast('Item excluído.');
+}
+
+/* ==========================================================
+   HISTORICO
+   ========================================================== */
 function renderHistorico() {
   const tbody = document.getElementById('hist-tbody');
   const empty = document.getElementById('hist-empty');
   tbody.innerHTML = '';
-  document.getElementById('h-count').textContent = state.historico.length;
-  empty.style.display = state.historico.length===0 ? 'block' : 'none';
-  state.historico.forEach((p,i) => {
+  document.getElementById('h-count').textContent = historico.length;
+  empty.style.display = historico.length===0 ? 'block' : 'none';
+
+  historico.forEach((p,i) => {
     const cor  = getCores(p.tema);
     const rest = diasRest(p.prazo);
-    const pct  = Math.min(100, Math.round(diffDays/p.prazo*100));
+    const pct  = Math.min(100, Math.round(diffDays/(parseInt(p.prazo)||60)*100));
     const vencLabel = rest<0
       ? `<span class="entrega-label alert">Vencido há ${Math.abs(rest)}d</span>`
-      : rest<=15 ? `<span class="entrega-label warn">${rest} dias</span>`
-      : `<span class="entrega-label ok">${rest} dias</span>`;
+      : `<span class="entrega-label ok">${rest}d</span>`;
     const statusCor = p.status==='Concluído'?'var(--green)':p.status==='Em andamento'?'var(--accent)':p.status==='Bloqueado'?'var(--red)':'var(--muted)';
     const row = document.createElement('tr');
     row.innerHTML = `
       <td><span class="tema-badge" style="background:${cor.bg};border:1px solid ${cor.border};color:${cor.text}">${p.tema.split(' ')[0]}</span></td>
-      <td style="font-weight:600;max-width:150px">${p.subtema}</td>
-      <td style="color:var(--muted);font-size:13px;max-width:130px">${p.risco||'-'}</td>
-      <td style="font-size:13px;max-width:190px">${p.acao}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12px">${p.resp||'-'}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12px">${p.ext||'-'}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">${p.dataInicio||'-'}</td>
+      <td style="font-weight:600;max-width:150px">${p.subtema||''}</td>
+      <td style="color:var(--muted);font-size:13px;max-width:130px">${p.risco||''}</td>
+      <td style="font-size:13px;max-width:190px">${p.acao||''}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px">${p.resp||''}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">${p.ext||''}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">${p.dataInicio||''}</td>
       <td>
         <div class="prazo-bar">
           <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${corBarra(pct)}"></div></div>
-          <span class="dias-label"><strong>${p.prazo}d</strong> · ${pct}% decorrido</span>
+          <span class="dias-label"><strong>${p.prazo||60}d</strong> · ${pct}%</span>
         </div>
       </td>
       <td>
         <span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">${vencimento(p.prazo).toLocaleDateString('pt-BR')}</span><br>
         ${vencLabel}
       </td>
-      <td><span style="color:${statusCor};font-size:12px;font-weight:600">${p.status||'-'}</span></td>
+      <td><span style="color:${statusCor};font-size:12px;font-weight:600">${p.status||''}</span></td>
       <td style="font-size:12px;color:var(--muted);max-width:160px">${p.notas||''}</td>
       <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);white-space:nowrap">${p.arquivadoEm||'-'}</td>
       <td style="white-space:nowrap">
@@ -687,30 +752,33 @@ function renderHistorico() {
   });
 }
 
-function restaurarItem(i) {
-  const item = state.historico.splice(i,1)[0];
+async function restaurarItem(i) {
+  const item = historico.splice(i,1)[0];
   delete item.arquivadoEm;
+  item.arquivado = 'NAO';
   let insertIdx = -1;
-  state.prioridades.forEach((p, idx) => { if (p.tema === item.tema) insertIdx = idx; });
-  if (insertIdx === -1) state.prioridades.push(item);
-  else state.prioridades.splice(insertIdx+1, 0, item);
-  saveState(); renderTable(); renderHistorico();
-  mostrarToast('Item restaurado!');
+  prioridades.forEach((p,idx) => { if(p.tema===item.tema) insertIdx=idx; });
+  if (insertIdx===-1) prioridades.push(item);
+  else prioridades.splice(insertIdx+1, 0, item);
+  renderTable(); renderHistorico();
+  const ok = await salvarNoSheets({action:'restaurarRow', rowIndex: i});
+  if (ok) mostrarToast('Item restaurado!');
 }
 
-function deletarHistorico(i) {
+async function deletarHistorico(i) {
   if (!confirm('Excluir permanentemente do histórico?')) return;
-  state.historico.splice(i,1);
-  saveState(); renderHistorico();
-  mostrarToast('Item excluído do histórico.');
+  historico.splice(i,1);
+  renderHistorico();
+  const ok = await salvarNoSheets({action:'deleteHistorico', rowIndex: i});
+  if (ok) mostrarToast('Item excluído do histórico.');
 }
 
-/* =====================================================================
+/* ==========================================================
    DASHBOARD
-   ===================================================================== */
+   ========================================================== */
 function renderDashboard() {
-  const criticos = [...state.prioridades]
-    .map((p,i) => ({...p, rest:diasRest(p.prazo)}))
+  const criticos = [...prioridades]
+    .map(p => ({...p, rest:diasRest(p.prazo)}))
     .filter(p => p.status!=='Concluído')
     .sort((a,b) => a.rest-b.rest).slice(0,5);
 
@@ -718,13 +786,13 @@ function renderDashboard() {
     ? '<p style="color:var(--muted);font-size:13px">Nenhum item pendente.</p>'
     : criticos.map(p => {
         const cor = p.rest<0?'var(--red)':p.rest<=15?'var(--yellow)':'var(--green)';
-        const lbl = p.rest<0?`Vencido há ${Math.abs(p.rest)}d`:`${p.rest} dias`;
+        const lbl = p.rest<0?`Vencido há ${Math.abs(p.rest)}d`:`${p.rest}d restantes`;
         return `<div class="critical-item"><div><div class="ci-name">${p.subtema}</div><div class="ci-sub">${p.resp} · ${p.tema.split(' ')[0]}</div></div><div class="ci-days" style="color:${cor}">${lbl}</div></div>`;
       }).join('');
 
   const rm = {};
-  state.prioridades.forEach(p => {
-    if (!rm[p.resp]) rm[p.resp] = {total:0,done:0};
+  prioridades.forEach(p => {
+    if (!rm[p.resp]) rm[p.resp]={total:0,done:0};
     rm[p.resp].total++;
     if (p.status==='Concluído') rm[p.resp].done++;
   });
@@ -733,160 +801,22 @@ function renderDashboard() {
     return `<div class="resp-row"><div class="resp-label"><strong>${r}</strong><span>${v.done}/${v.total}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div></div>`;
   }).join('');
 
-  const sm = {'Não iniciado':0,'Em andamento':0,'Bloqueado':0,'Concluído':0};
-  state.prioridades.forEach(p => {
-    const s = p.status==='Nao iniciado'?'Não iniciado':p.status;
-    if (sm[s]!==undefined) sm[s]++;
+  const sm={'Não iniciado':0,'Em andamento':0,'Bloqueado':0,'Concluído':0};
+  prioridades.forEach(p => {
+    const s = (p.status==='Nao iniciado')?'Não iniciado':p.status;
+    if(sm[s]!==undefined) sm[s]++;
   });
-  const tot = state.prioridades.length||1;
-  const sc  = {'Não iniciado':'var(--muted)','Em andamento':'var(--accent)','Bloqueado':'var(--red)','Concluído':'var(--green)'};
+  const tot = prioridades.length||1;
+  const sc={'Não iniciado':'var(--muted)','Em andamento':'var(--accent)','Bloqueado':'var(--red)','Concluído':'var(--green)'};
   document.getElementById('dash-status').innerHTML = Object.entries(sm).map(([s,v]) =>
     `<div class="resp-row"><div class="resp-label"><strong style="color:${sc[s]}">${s}</strong><span>${v} itens</span></div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/tot*100)}%;background:${sc[s]}"></div></div></div>`
   ).join('');
 }
 
-/* =====================================================================
-   GITHUB — configuração
-   ===================================================================== */
-const GH_DEFAULTS = { user: 'daniel1neri', repo: 'painel-spgf', file: 'dados.json' };
-
-function loadGHConfig() {
-  try {
-    const raw = localStorage.getItem('spgf_gh_config');
-    const cfg = raw ? JSON.parse(raw) : {};
-    return {
-      token: cfg.token || '',
-      user:  cfg.user  || GH_DEFAULTS.user,
-      repo:  cfg.repo  || GH_DEFAULTS.repo,
-      file:  cfg.file  || GH_DEFAULTS.file,
-    };
-  } catch(e) { return {...GH_DEFAULTS, token:''}; }
-}
-
-function abrirConfigGH() {
-  const cfg = loadGHConfig();
-  document.getElementById('gh-token').value = cfg.token;
-  document.getElementById('gh-user').value  = cfg.user;
-  document.getElementById('gh-repo').value  = cfg.repo;
-  document.getElementById('gh-file').value  = cfg.file;
-  document.getElementById('modal-gh').classList.add('open');
-}
-
-function fecharConfigGH() { document.getElementById('modal-gh').classList.remove('open'); }
-
-function salvarConfigGH() {
-  const cfg = {
-    token: document.getElementById('gh-token').value.trim(),
-    user:  document.getElementById('gh-user').value.trim(),
-    repo:  document.getElementById('gh-repo').value.trim(),
-    file:  document.getElementById('gh-file').value.trim() || 'dados.json',
-  };
-  localStorage.setItem('spgf_gh_config', JSON.stringify(cfg));
-  fecharConfigGH();
-  // Mostra botão salvar se tem token
-  document.getElementById('btn-salvar').style.display = cfg.token ? 'inline-block' : 'none';
-  mostrarToast('Configuração salva!');
-}
-
-/* =====================================================================
-   GITHUB — carregar (leitura pública, sem token)
-   ===================================================================== */
-async function carregarDoGitHub(manual) {
-  const cfg = loadGHConfig();
-  const btn = document.getElementById('btn-reload');
-  btn.classList.add('loading');
-  setSyncStatus('Buscando dados no GitHub...', 'load');
-
-  // Renderiza dados locais imediatamente enquanto busca
-  renderTable(); renderHistorico();
-
-  const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.file}`;
-  const headers = { 'Accept': 'application/vnd.github.v3+json' };
-  if (cfg.token) headers['Authorization'] = `token ${cfg.token}`;
-
-  try {
-    const res = await fetch(apiUrl, { headers });
-    if (res.status === 404) throw new Error('Arquivo/repositório não encontrado');
-    if (res.status === 403 || res.status === 401)
-      throw new Error('Repositório privado — configure o token em ⚙ ou torne o repo público');
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data    = await res.json();
-    const decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
-    const dados   = JSON.parse(decoded);
-    if (!dados.prioridades) throw new Error('Formato inválido no JSON');
-
-    const temasLocais = state.temas || {};
-    state = dados;
-    if (!state.temas) state.temas = {};
-    Object.assign(state.temas, temasLocais);
-
-    saveState();
-    renderTable(); renderHistorico();
-
-    const agora = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
-    setSyncStatus(`Atualizado às ${agora} · ${dados.prioridades.length} prioridades`, 'ok');
-    if (manual) mostrarToast('Dados atualizados!');
-  } catch(e) {
-    const msg = (e.message.includes('fetch') || e.message.includes('Failed') || e.message.includes('NetworkError'))
-      ? 'Sem conexão com GitHub. Repo privado? Configure o token em ⚙'
-      : e.message;
-    setSyncStatus(msg, 'erro');
-    if (manual) mostrarToast('Erro: ' + msg, 'erro');
-    // Dados locais já foram renderizados acima, nada mais a fazer
-  }
-  btn.classList.remove('loading');
-}
-
-/* =====================================================================
-   GITHUB — salvar (precisa de token)
-   ===================================================================== */
-async function salvarNoGitHub() {
-  const cfg = loadGHConfig();
-  if (!cfg.token) { abrirConfigGH(); return; }
-
-  setSyncStatus('Salvando no GitHub...', 'load');
-  const dadosParaSalvar = { prioridades: state.prioridades, historico: state.historico, temas: state.temas||{}, filtro: state.filtro };
-  const base64 = btoa(unescape(encodeURIComponent(JSON.stringify(dadosParaSalvar, null, 2))));
-  const apiUrl = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${cfg.file}`;
-  const headers = { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
-
-  try {
-    let sha = null;
-    const check = await fetch(apiUrl, { headers });
-    if (check.ok) { const d = await check.json(); sha = d.sha; }
-
-    const res = await fetch(apiUrl, {
-      method: 'PUT', headers,
-      body: JSON.stringify({
-        message: `Dados atualizados em ${new Date().toLocaleString('pt-BR')}`,
-        content: base64,
-        ...(sha ? {sha} : {}),
-      }),
-    });
-    if (res.ok) {
-      const agora = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
-      setSyncStatus(`Salvo às ${agora}`, 'ok');
-      mostrarToast('Dados salvos no GitHub!');
-    } else {
-      const err = await res.json();
-      setSyncStatus(`Erro: ${err.message}`, 'erro');
-      mostrarToast('Erro ao salvar.', 'erro');
-    }
-  } catch(e) {
-    setSyncStatus('Erro de conexão.', 'erro');
-    mostrarToast('Erro de conexão.', 'erro');
-  }
-}
-
-/* =====================================================================
+/* ==========================================================
    INICIALIZAÇÃO
-   ===================================================================== */
-// Mostra botão salvar se token já está configurado
-const _cfg = loadGHConfig();
-if (_cfg.token) document.getElementById('btn-salvar').style.display = 'inline-block';
-
-// Carrega do GitHub automaticamente ao abrir
-carregarDoGitHub(false);
+   ========================================================== */
+carregarDados(false);
 </script>
 </body>
 </html>
